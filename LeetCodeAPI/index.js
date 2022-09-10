@@ -13,6 +13,12 @@ app.use((req, res, next) => {
     next();
 });
 
+
+/* TEST */
+const helper = require("./src/problems-req");
+helper.sortByDifficulty();
+/* TEST */
+
 // Routes Configuration
 app.use("/problems", problemRoutes);
 
