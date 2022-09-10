@@ -5,10 +5,10 @@ function printElement(index) {
     let lcProblem = "";
     if (index >= 0 && index < problemCount) {
         lcProblem = problems[index].stat.question__title_slug;
-        console.log(lcProblem);
+        // console.log("Responded with: " + lcProblem);
         return `https://www.leetcode.com/problems/${lcProblem}`;
     }
-    console.log("Index out of range");
+    // console.log("Index out of range");
     return "Problem not found, please try a different index.";
 }
 

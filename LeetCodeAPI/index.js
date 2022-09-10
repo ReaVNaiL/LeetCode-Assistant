@@ -1,21 +1,21 @@
-const problems = require('./src/problems-req');
-const express = require('express');
+const express = require("express");
 const app = express();
-const PORT = 50520;
 
-// Test endpoint
-app.get("/user/stats/:index", (req, res) => {
-    let data = problems.printElement(req.params.index);
-    res.send(`${JSON.stringify(data)}`);
-});
+const settings = require("./data/api-settings.json");
+const PORT = settings.port;
 
-// Create logger for each request to the server with Error handling
+const problemRoutes = require("./routes/problems");
+
+// Simple Logger
+let currTime = new Date().toLocaleString();
 app.use((req, res, next) => {
-    console.log(`[${new Date().toLocaleString()}]: [${req.method}] ${req.url == '/' ? 'http://localhost:50520' : req.url}`);
+    console.log(`[${currTime}]: [${req.method}] http://localhost:50520${req.url} | Domain: "${req.hostname}" | IP: "${req.ip}`);
     next();
 });
 
-app.listen(
-    PORT,
-    () => console.log(`Server listening on http://localhost:${PORT}/`)
-)
+// Routes Configuration
+app.use("/problems", problemRoutes);
+
+app.listen(PORT, () =>
+    console.log(`Server listening on http://localhost:${PORT}/`)
+);
