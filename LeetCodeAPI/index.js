@@ -1,34 +1,28 @@
+const bot = require('./src/bot.js');
 const express = require('express');
 const app = express();
 const PORT = 50520;
+const data = require("./src/leetcode-data.json");
 
-let courses = {
-    1: {
-        id : 1,
-        name : "course1"
-    },
-    2: {
-        id : 2,
-        name : "course2"
-    },
+function printElement(index){
+    lcProblem = data.stat_status_pairs[0].stat.question__title_slug;
+    console.log(lcProblem);
+    return `https://www.leetcode.com/problems/${lcProblem}`;
 };
 
-// Add JSON body parsing middleware
-app.use(express.json());
-
 // Test endpoint
-app.get("/test/:testvar", (req, res) => {
-    res.send(`${JSON.stringify(courses)}`);
-    // res.send(`Hello World! Your number is ${req.params.testvar}`);
+app.get("/user/stats/:index", (req, res) => {
+    let data3 = printElement(req.params.index);
+    res.send(`${JSON.stringify(data3)}`);
 });
 
 // Create logger for each request to the server with Error handling
 app.use((req, res, next) => {
-    console.log(`[${new Date().toLocaleString()}]: [${req.method}] ${req.url == '/' ? 'https://localhost:50520' : req.url}`);
+    console.log(`[${new Date().toLocaleString()}]: [${req.method}] ${req.url == '/' ? 'http://localhost:50520' : req.url}`);
     next();
 });
 
 app.listen(
     PORT,
-    () => console.log(`Server listening on https://localhost:${PORT}/`)
+    () => console.log(`Server listening on http://localhost:${PORT}/`)
 )
