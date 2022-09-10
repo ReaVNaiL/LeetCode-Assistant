@@ -5,7 +5,7 @@ const PORT = 50520;
 const data = require("./src/leetcode-data.json");
 
 function printElement(index){
-    lcProblem = data.stat_status_pairs[0].stat.question__title_slug;
+    lcProblem = data.stat_status_pairs[index].stat.question__title_slug;
     console.log(lcProblem);
     return `https://www.leetcode.com/problems/${lcProblem}`;
 };
