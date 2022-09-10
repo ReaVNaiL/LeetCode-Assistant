@@ -23,7 +23,3 @@ function getUserData() {
 
 module.exports.getUserData = getUserData;
 
-// http.get(`https://leetcode.com/api/problems/all/`, (req, res) => {
-//     req.headers["Content-Type"] = "application/json";
-//     req.headers["Cookie"] = `LEETCODE_SESSION=${session}`;
-// });

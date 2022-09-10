@@ -1,19 +1,12 @@
-const bot = require('./src/bot.js');
+const problems = require('./src/problems-req');
 const express = require('express');
 const app = express();
 const PORT = 50520;
-const data = require("./src/leetcode-data.json");
-
-function printElement(index){
-    lcProblem = data.stat_status_pairs[index].stat.question__title_slug;
-    console.log(lcProblem);
-    return `https://www.leetcode.com/problems/${lcProblem}`;
-};
 
 // Test endpoint
 app.get("/user/stats/:index", (req, res) => {
-    let data3 = printElement(req.params.index);
-    res.send(`${JSON.stringify(data3)}`);
+    let data = problems.printElement(req.params.index);
+    res.send(`${JSON.stringify(data)}`);
 });
 
 // Create logger for each request to the server with Error handling
