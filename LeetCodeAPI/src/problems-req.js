@@ -58,12 +58,13 @@ function createBaseModel(problemSet) {
         isCompleted: problemSet.status == "ac" ? true : false,
         questionUrl: problemSet.stat.question__title_slug,
         isNewQuestion: problemSet.stat.is_new_question,
+        paidOnly: problemSet.paid_only
     };
 }
 
 function generateSortedJsonFile(filename, jsonContent) {
     let path = `./LeetCodeAPI/data/${filename}`;
-    fs.writeFile(path, JSON.stringify(jsonContent), function (err) {
+    fs.writeFile(path, JSON.stringify(jsonContent, null, 4), function (err) {
         if (err) console.log(err);
         else console.log(`File written succesfully: ${filename}.`);
     });
