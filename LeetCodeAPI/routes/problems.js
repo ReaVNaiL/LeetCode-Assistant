@@ -29,7 +29,7 @@ router.get("/refresh", (req, res) => {
 });
 
 router.get("/test", (req, res) => {
-    res.send(problems.sortByDifficulty());
+    res.send(problems.arrangeProblemSets());
 });
 
 // Always export the router so it can be accessed in the main index.js file
