@@ -11,7 +11,6 @@ function printElement(index) {
     let lcProblem = "";
     if (index >= 0 && index < problemCount) {
         lcProblem = problems[index];
-        // return `https://www.leetcode.com/problems/${lcProblem}`;
         let newProblem = createBaseModel(lcProblem);
         return newProblem;
     }
@@ -19,6 +18,9 @@ function printElement(index) {
 }
 
 function arrangeProblemSets() {
+    problemList = [[], [], []];
+    completedProblemList = [[], [], []];
+
     problems.forEach(function (element) {
         let newProblem = createBaseModel(element);
 
@@ -63,7 +65,7 @@ function createBaseModel(problemSet) {
 }
 
 function generateSortedJsonFile(filename, jsonContent) {
-    let path = `./LeetCodeAPI/data/${filename}`;
+    let path = `./src/api/data/${filename}`;
     fs.writeFile(path, JSON.stringify(jsonContent, null, 4), function (err) {
         if (err) console.log(err);
         else console.log(`File written succesfully: ${filename}.`);

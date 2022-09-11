@@ -1,11 +1,11 @@
 // Import Modules
-const settings = require("../data/api-settings.json");
+const settings = require("../../config/api-settings.json");
 const axios = require('axios');
 const express = require("express");
 const router = express.Router();
 
 // Import problems logic.
-const problems = require("../src/problems-req.js");
+const problems = require("../services/problems-req");
 
 // Get URL for given Index Problem 
 router.get("/search", (req, res) => {
@@ -28,7 +28,7 @@ router.get("/refresh", (req, res) => {
     });
 });
 
-router.get("/test", (req, res) => {
+router.get("/all", (req, res) => {
     res.send(problems.arrangeProblemSets());
 });
 
