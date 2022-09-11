@@ -1,34 +1,21 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const PORT = 50520;
 
-let courses = {
-    1: {
-        id : 1,
-        name : "course1"
-    },
-    2: {
-        id : 2,
-        name : "course2"
-    },
-};
+const settings = require("./data/api-settings.json");
+const PORT = settings.port;
 
-// Add JSON body parsing middleware
-app.use(express.json());
+const problemRoutes = require("./routes/problems");
 
-// Test endpoint
-app.get("/test/:testvar", (req, res) => {
-    res.send(`${JSON.stringify(courses)}`);
-    // res.send(`Hello World! Your number is ${req.params.testvar}`);
-});
-
-// Create logger for each request to the server with Error handling
+// Simple Logger
+let currTime = new Date().toLocaleString();
 app.use((req, res, next) => {
-    console.log(`[${new Date().toLocaleString()}]: [${req.method}] ${req.url == '/' ? 'https://localhost:50520' : req.url}`);
+    console.log(`[${currTime}]: [${req.method}] http://localhost:50520${req.url} | Domain: "${req.hostname}" | IP: "${req.ip}`);
     next();
 });
 
-app.listen(
-    PORT,
-    () => console.log(`Server listening on https://localhost:${PORT}/`)
-)
+// Routes Configuration
+app.use("/problems", problemRoutes);
+
+app.listen(PORT, () =>
+    console.log(`Server listening on http://localhost:${PORT}/`)
+);
