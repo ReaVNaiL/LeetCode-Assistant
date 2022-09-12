@@ -2,7 +2,7 @@
   "name": "leetcodeapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ajax": "^0.0.4",
     "axios": "^0.27.2",
-    "body-parser": "^1.20.0",
     "express": "^4.18.1",
-    "express-winston": "^4.2.0",
-    "winston": "^3.8.2"
+    "express-winston": "^4.2.0"
   }
 }

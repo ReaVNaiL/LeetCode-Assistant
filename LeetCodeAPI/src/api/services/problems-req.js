@@ -1,24 +1,26 @@
 // Modules import
-const problems = require("../data/leetcode-data.json").stat_status_pairs;
+const problems = require('../data/leetcode-data.json').stat_status_pairs;
 const problemCount = problems.length;
-const fs = require("fs");
+const fs = require('fs');
 
 // index 0 = easy, 1 = medium, 2 = hard;
 let problemList = [[], [], []];
 let completedProblemList = [[], [], []];
 
 function printElement(index) {
-    let lcProblem = "";
+    let lcProblem = '';
     if (index >= 0 && index < problemCount) {
         lcProblem = problems[index];
-        // return `https://www.leetcode.com/problems/${lcProblem}`;
         let newProblem = createBaseModel(lcProblem);
         return newProblem;
     }
-    return "Problem not found, please try a different index.";
+    return 'Problem not found, please try a different index.';
 }
 
 function arrangeProblemSets() {
+    problemList = [[], [], []];
+    completedProblemList = [[], [], []];
+
     problems.forEach(function (element) {
         let newProblem = createBaseModel(element);
 
@@ -35,7 +37,7 @@ function arrangeProblemSets() {
         }
     });
 
-    generateSortedJsonFile("leetcode-data-sorted.json", {
+    generateSortedJsonFile('leetcode-data-sorted.json', {
         completedProblemList,
         problemList,
     });
@@ -55,15 +57,16 @@ function createBaseModel(problemSet) {
         problemId: problemId,
         difficulty: problemSet.difficulty.level,
         progress: problemSet.progress,
-        isCompleted: problemSet.status == "ac" ? true : false,
+        isCompleted: problemSet.status == 'ac' ? true : false,
         questionUrl: problemSet.stat.question__title_slug,
         isNewQuestion: problemSet.stat.is_new_question,
+        paidOnly: problemSet.paid_only,
     };
 }
 
 function generateSortedJsonFile(filename, jsonContent) {
-    let path = `./LeetCodeAPI/data/${filename}`;
-    fs.writeFile(path, JSON.stringify(jsonContent), function (err) {
+    let path = `./src/api/data/${filename}`;
+    fs.writeFile(path, JSON.stringify(jsonContent, null, 4), function (err) {
         if (err) console.log(err);
         else console.log(`File written succesfully: ${filename}.`);
     });
