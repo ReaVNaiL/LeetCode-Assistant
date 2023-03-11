@@ -2,5 +2,29 @@
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3"
-  }
+  },
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "A discord bot to get up to date problems, and generate dailys!",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel M",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/tree/main/discord-bot"
+  },
+  "bugs": {
+    "url": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/#readme",
+  "keywords": [
+    "leetcode",
+    "discord",
+    "bot"
+  ]
 }
