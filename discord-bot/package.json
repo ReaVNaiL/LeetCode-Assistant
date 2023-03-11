@@ -1,17 +1,12 @@
 {
-  "dependencies": {
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
-  },
   "name": "discord-bot",
   "version": "1.0.0",
-  "main": "index.js",
   "description": "A discord bot to get up to date problems, and generate dailys!",
-  "devDependencies": {},
-  "scripts": {
-    "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [
+    "leetcode",
+    "discord",
+    "bot"
+  ],
   "author": "Daniel M",
   "license": "ISC",
   "repository": {
@@ -22,9 +17,19 @@
     "url": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/issues"
   },
   "homepage": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/#readme",
-  "keywords": [
-    "leetcode",
-    "discord",
-    "bot"
-  ]
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  },
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
+  }
 }
