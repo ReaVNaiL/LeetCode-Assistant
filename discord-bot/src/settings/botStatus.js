@@ -1,4 +1,4 @@
-const { ActivityType, ClientPresence } = require('discord.js');
+const { ActivityType } = require('discord.js');
 
 function SetBotStatus(client, status) {
     client.user.setPresence({
