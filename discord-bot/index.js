@@ -1,5 +1,5 @@
 const config = require('./config/bot-credentials.json');
-const { client } = require('./discordClient.js');
+const { discordClient } = require('./src/discordClient.js');
 
 // Stop the bot
-client.destroy(config.token);
+discordClient.loging(config.token);
