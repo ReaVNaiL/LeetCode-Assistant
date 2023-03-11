@@ -1,6 +1,8 @@
-function InitializeClient() {
-    const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
+const commands = require('./data/commands.json');
+const { SetBotStatus } = require('./settings/botStatus');
 
+function InitializeClient() {
     const client = new Client({
         intents: [
             GatewayIntentBits.Guilds,
@@ -13,19 +15,18 @@ function InitializeClient() {
     client.on('ready', () => {
         console.log(`Logged in as ${client.user.tag}!`);
 
-        client.user.setActivity('Being a menace to society...', {
-            type: 'WATCHING',
+        SetBotStatus(client, 'Being a menace to society...');
+
+        const lc_commands = commands.map((command) => {
+            return {
+                name: command.name.toLowerCase(),
+                description: command.description,
+                options: command.options,
+            };
         });
 
-        const commands = [
-            {
-                name: 'get-my-daily',
-                description: 'Get your daily LC problem!',
-            },
-        ];
-
         client.guilds.cache.forEach(async (guild) => {
-            await guild.commands.set(commands);
+            await guild.commands.set(lc_commands);
         });
     });
 
