@@ -4,7 +4,7 @@ function SetBotCommands(client) {
     const lcCommands = commands.map((command) => ({
         name: command.name.toLowerCase(),
         description: command.description,
-        options: command.options,
+        options: command.options
     }));
 
     client.guilds.cache.forEach(async (guild) => {
