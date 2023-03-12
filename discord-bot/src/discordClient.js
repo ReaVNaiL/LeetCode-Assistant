@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
-const commands = require('./data/commands.json');
+
+const { SetBotCommands } = require('./settings/botCommands');
 const { SetBotStatus } = require('./settings/botStatus');
 
 function InitializeClient() {
@@ -16,17 +17,11 @@ function InitializeClient() {
     client.on('ready', () => {
         console.log(`Logged in as ${client.user.tag}!`);
 
+        // Set the bot status
         SetBotStatus(client, 'Being a menace to society...');
 
-        const lcCommands = commands.map((command) => ({
-            name: command.name.toLowerCase(),
-            description: command.description,
-            options: command.options,
-        }));
-
-        client.guilds.cache.forEach(async (guild) => {
-            await guild.commands.set(lcCommands);
-        });
+        // Set the bot commands for all guilds
+        SetBotCommands(client);
     });
 
     return client;
