@@ -6,10 +6,10 @@ function SetBotStatus(client, status) {
             {
                 name: status,
                 type: ActivityType.Streaming,
-                url: 'https://www.youtube.com/watch?v=QH2-TGUlwu4',
-            },
+                url: 'https://www.youtube.com/watch?v=QH2-TGUlwu4'
+            }
         ],
-        status: 'online',
+        status: 'online'
     });
 }
 

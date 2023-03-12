@@ -12,4 +12,4 @@ async function dailyProblemStringBuilder(
     `);
 }
 
-exports.sendDailyProblem = dailyProblemStringBuilder;
+exports.dailyProblemStringBuilder = dailyProblemStringBuilder;
