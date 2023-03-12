@@ -1,4 +1,4 @@
-async function sendDailyProblem(
+async function dailyProblemStringBuilder(
     interaction,
     problemName,
     problemDifficulty,
@@ -12,4 +12,4 @@ async function sendDailyProblem(
     `);
 }
 
-exports.sendDailyProblem = sendDailyProblem;
+exports.sendDailyProblem = dailyProblemStringBuilder;
