@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
+const { sendDailyProblem } = require('./helpers/dailyProblem');
 
 const { SetBotCommands } = require('./settings/botCommands');
 const { SetBotStatus } = require('./settings/botStatus');
@@ -30,19 +31,29 @@ function InitializeClient() {
         const { commandName, options } = interaction;
 
         if (commandName === 'get-my-daily') {
-            await interaction.reply('Here is your daily Problem!');
-        } else if (commandName === 'get-company-problems') {
-            // Display the problem url
+            // TODO NOTE: This is a placeholder for now
+            await sendDailyProblem(
+                interaction,
+                'Two Sum',
+                'Easy',
+                'https://leetcode.com/problems/two-sum/'
+            );
+        }
+
+        if (commandName === 'get-company-problems') {
+            // TODO TEST: Testing input validation
             const company = options.getString('company');
             await interaction.reply(`Here are the problems for ${company}!`);
-        } else if (commandName === 'leaderboard') {
-            await interaction.reply('Here is the leaderboard!');
+        }
+
+        if (commandName === 'leaderboard') {
+            await interaction.reply('*NOT IMPLEMENTED*');
         } else if (commandName === 'help') {
-            await interaction.reply('Here is the help!');
+            await interaction.reply('*NOT IMPLEMENTED*');
         } else if (commandName === 'get-my-problem') {
-            await interaction.reply('Here is your problem!');
+            await interaction.reply('*NOT IMPLEMENTED*');
         } else if (commandName === 'show-solution') {
-            await interaction.reply('Here is the solution!');
+            await interaction.reply('*NOT IMPLEMENTED*');
         }
     });
 
