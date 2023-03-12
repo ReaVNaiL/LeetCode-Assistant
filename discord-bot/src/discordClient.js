@@ -19,7 +19,7 @@ function InitializeClient() {
         console.log(`Logged in as ${client.user.tag}!`);
 
         // Set the bot status
-        SetBotStatus(client, 'Being a menace to society...');
+        SetBotStatus(client, 'Nyan Cat :3');
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
