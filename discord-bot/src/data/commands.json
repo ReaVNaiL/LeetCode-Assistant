@@ -5,7 +5,15 @@
     },
     {
         "name": "get-company-problems",
-        "description": "Get all problems from a company!"
+        "description": "Get all problems from a company!",
+        "options": [
+            {
+                "name": "company",
+                "description": "The company you want to get problems from. i.e: 'Amazon', 'Apple', etc.",
+                "type": 3,
+                "required": true
+            }
+        ]
     },
     {
         "name": "leaderboard",
