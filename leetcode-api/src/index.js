@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 
-const settings = require('./src/config/api-settings.json');
+const settings = require('./config/api-settings.json');
 const PORT = settings.port;
 
-const problemRoutes = require('./src/api/routes/problems');
+const problemRoutes = require('./api/routes/problems');
 
 // Simple Logger
 let currTime = new Date().toLocaleString();
