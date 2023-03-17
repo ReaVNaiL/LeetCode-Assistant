@@ -1,0 +1,34 @@
+[
+    {
+        "name": "get-my-daily",
+        "description": "Get your daily LC problem!"
+    },
+    {
+        "name": "get-company-problems",
+        "description": "Get all problems from a company!",
+        "options": [
+            {
+                "name": "company",
+                "description": "The company you want to get problems from. i.e: 'Amazon', 'Apple', etc.",
+                "type": 3,
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "leaderboard",
+        "description": "Get the leaderboard for all users!"
+    },
+    {
+        "name": "help",
+        "description": "Get help for the bot!"
+    },
+    {
+        "name": "get-my-problem",
+        "description": "Get a specific problem!"
+    },
+    {
+        "name": "show-solution",
+        "description": "Show the solution for a specific problem"
+    }
+]
