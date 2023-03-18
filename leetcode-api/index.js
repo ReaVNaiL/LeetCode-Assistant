@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const settings = require('./src/config/api-settings.json');
-const PORT = settings.port;
+const PORT = process.env.PORT || settings.port;
 
 const problemRoutes = require('./src/api/routes/problems');
 
@@ -17,6 +17,11 @@ app.use((req, res, next) => {
 
 // Routes Configuration
 app.use('/problems', problemRoutes);
+
+// Create a home route
+app.get('/', (req, res) => {
+    res.send('Welcome to LeetCode API');
+});
 
 app.listen(PORT, () =>
     console.log(`Server listening on http://localhost:${PORT}/`)
