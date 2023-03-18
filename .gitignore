@@ -2,4 +2,5 @@ node_modules
 .prettierrc
 .vscode
 *.discord-config
-discord-bot/config/bot-credentials.json
+.vercel
+.env
