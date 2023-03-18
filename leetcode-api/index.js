@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const settings = require('./src/config/api-settings.json');
-const PORT = settings.port;
+const PORT = process.env.PORT || settings.port;
 
 const problemRoutes = require('./src/api/routes/problems');
 
