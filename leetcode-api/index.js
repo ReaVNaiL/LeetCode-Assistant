@@ -18,6 +18,11 @@ app.use((req, res, next) => {
 // Routes Configuration
 app.use('/problems', problemRoutes);
 
+// Create a home route
+app.get('/', (req, res) => {
+    res.send('Welcome to LeetCode API');
+});
+
 app.listen(PORT, () =>
     console.log(`Server listening on http://localhost:${PORT}/`)
 );
