@@ -21,13 +21,10 @@ jobs:
       - name: Install PM2
         run: npm install -g pm2
 
-      - name: Install dependencies
-        run: npm install
-        
-      - name: libcrypto
-        run: sudo apt-get update && sudo apt-get install libssl-dev
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y ssh npm
 
-      - name: Deploy
+      - name: Deploy to Production
         env:
           SSH_KEY: ${{ secrets.SSH_PERMS }}
         run: |
