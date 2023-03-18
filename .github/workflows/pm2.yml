@@ -32,5 +32,5 @@ jobs:
           echo "$SSH_KEY" | tr -d '\r' | ssh-add -
           ssh -o "StrictHostKeyChecking=no" root@10.0.0.45 "pm2 deploy ecosystem.config.js production setup && pm2 deploy ecosystem.config.js production --force"
 
-      - name: Restart PM2
-        run: pm2 restartOrRestart LeetCode-Bot
+      - name: Restart pm2
+        run: pm2 startOrRestart LeetCode-Bot
