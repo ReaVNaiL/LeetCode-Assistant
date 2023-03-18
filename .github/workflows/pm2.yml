@@ -1,4 +1,4 @@
-name: Deploy to PM2
+name: Deploy LeetCode-Bot
 
 on:
   push:
@@ -8,16 +8,29 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
           node-version: "14.x"
+
+      - name: Install PM2
+        run: npm install -g pm2
+
       - name: Install dependencies
         run: npm install
-      - name: Build application
-        run: npm run build
-      - name: Start application with PM2
-        run: pm2 startOrRestart ecosystem.config.js
+
+      - name: Deploy
+        env:
+          SSH_KEY: ${{ secrets.SSH_PERMS }}
+        run: |
+          eval $(ssh-agent)
+          echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+          ssh -o "StrictHostKeyChecking=no" root@10.0.0.45 "pm2 deploy ecosystem.config.js production setup && pm2 deploy ecosystem.config.js production --force"
+
+      - name: Restart PM2
+        run: pm2 restart LeetCode-Bot
