@@ -1,6 +1,6 @@
 const { exec } = require('child_process');
 
-const pm2EnvFile = '~/environment.config.js';
+const pm2EnvFile = '~/LeetCode-Generator-Discord-Bot.js';
 
 let prevCommit = null;
 
