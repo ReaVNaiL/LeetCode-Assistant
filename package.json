@@ -8,8 +8,7 @@
     "lerna": "^6.5.1"
   },
   "dependencies": {
-    "lerna": "^6.5.1",
-    "nx": "^12.5.0"
+    "lerna": "^6.5.1"
   },
   "scripts": {
     "lint:fix": "lerna run lint:fix --parallel"
