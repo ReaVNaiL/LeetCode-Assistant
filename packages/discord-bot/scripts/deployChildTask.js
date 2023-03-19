@@ -4,7 +4,7 @@ const cron = require('node-cron');
 
 // define the task to run every 24 hours
 function executeDeploymentSchedule() {
-    const task = cron.schedule('*/30 * * * *', () => {
+    const task = cron.schedule('*/15 * * * *', () => {
         console.log('Running git pull and pm2 restart...');
 
         // spawn the child process
