@@ -32,13 +32,13 @@ jobs:
             - name: Install ESLint
               run: npm install -g eslint
 
-            - name: Install Dependencies
-              run: npm install
+            - name: Install AirBnB ESLint Config
+              run: npm install --save eslint-config-airbnb
             
             - name: Bootstrap Packages
               run: lerna bootstrap
 
             - name: Run ESLint
-              run: lerna run lint:fix
+              run: lerna run lint:fix --verbose
               env:
                   CI: true
