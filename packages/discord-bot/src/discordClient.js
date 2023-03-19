@@ -42,6 +42,7 @@ async function initializeBotInteractions(interaction) {
         await interaction.reply(`Here are the problems for ${company}!`);
     }
 
+    
     if (commandName === 'leaderboard') {
         await interaction.reply('*NOT IMPLEMENTED*');
     } else if (commandName === 'help') {
@@ -77,7 +78,7 @@ function InitializeClient() {
         console.log(`Logged in as ${client.user.tag}!`);
 
         // Set the bot status
-        SetBotStatus(client, 'Nyan-Cat <3');
+        SetBotStatus(client, '*Nyan-Cat <3');
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
