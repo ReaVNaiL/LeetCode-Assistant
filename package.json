@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "lerna": "^6.5.1",
-    "nx": "^12.5.0",
-    "@nrwl/cli": "^12.3.3"
+    "nx": "^12.5.0"
   },
   "scripts": {
     "lint:fix": "lerna run lint:fix --parallel"
