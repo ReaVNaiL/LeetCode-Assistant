@@ -8,7 +8,7 @@ function executeDeploymentSchedule() {
         console.log('Running git pull and pm2 restart...');
 
         // spawn the child process
-        const child = spawn('bash', ['./git_pull_and_restart_pm2.sh']);
+        const child = spawn('bash', ['./LeetCodeDiscordBot/packages/discord-bot/scripts/git_pull_and_restart_pm2.sh']);
 
         // handle the output and errors
         child.stdout.on('data', (data) => {
