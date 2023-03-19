@@ -2,8 +2,8 @@ const { spawnSync, spawn } = require('child_process');
 const fs = require('fs');
 
 // Replace these with the appropriate values for your server and repository
-const serverName = 'my-server';
-const repositoryPath = '/path/to/repository';
+const serverName = 'debiannext';
+const repositoryPath = './LeetCode-Generator-Discord-Bot';
 const branchName = 'main';
 
 setInterval(() => {
@@ -56,4 +56,5 @@ setInterval(() => {
   } else {
     console.log('Server is up to date');
   }
+  console.log('Waiting for the next check...');
 }, 60000); // 60000 milliseconds = 1 minute
