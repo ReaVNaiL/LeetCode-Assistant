@@ -78,7 +78,7 @@ function InitializeClient() {
         console.log(`[${getCurrentFormattedDate()}] Logged in as ${client.user.tag}!`);
 
         // Set the bot status
-        SetBotStatus(client, 'Nyan-Cat :3');
+        SetBotStatus(client, '<3 Nyan-Cat :3');
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
