@@ -2,6 +2,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const { dailyProblemStringBuilder } = require('./helpers/dailyProblem');
 
+const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
 const { SetBotStatus } = require('./settings/botStatus');
 
@@ -74,7 +75,7 @@ function InitializeClient() {
     });
 
     client.on('ready', () => {
-        console.log(`[dqwdqdw] Logged in as ${client.user.tag}!`);
+        console.log(`[${getCurrentFormattedDate()}] Logged in as ${client.user.tag}!`);
 
         // Set the bot status
         SetBotStatus(client, 'Nyan-Cat :3');
