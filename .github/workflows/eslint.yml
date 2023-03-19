@@ -4,23 +4,24 @@
 name: ESLint Review
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  eslint:
+  eslint-fix:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14.x
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-          
-      - name: Install Dependencies
-        run: npm ci
-
-      # - name: ESLint
-      #   run: npx eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .
+          node-version: 14.x
+      - run: npm install -g lerna
+      - run: lerna bootstrap
+      - run: lerna run lint:fix
+        env:
+          CI: true
