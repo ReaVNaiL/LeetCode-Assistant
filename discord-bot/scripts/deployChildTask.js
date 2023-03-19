@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { spawn } = require('child_process');
 const cron = require('node-cron');
 
