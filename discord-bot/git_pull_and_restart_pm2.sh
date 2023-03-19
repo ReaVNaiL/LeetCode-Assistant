@@ -12,3 +12,6 @@ if [ "$(git diff --shortstat)" != "" ]; then
   pm2 startOrRestart ecosystem.config.js
   pm2 show LeetCode-Bot
 fi
+
+pm2 startOrRestart ecosystem.config.js
+ pm2 show LeetCode-Bot
