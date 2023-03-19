@@ -5,12 +5,14 @@
     "packages/*"
   ],
   "devDependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
     "lerna": "^6.5.1"
   },
   "dependencies": {
     "lerna": "^6.5.1"
   },
   "scripts": {
-    "lint:fix": "lerna run lint:fix --parallel"
+    "lint:fix": "lerna run lint:fix --parallel",
+    "install:dev": "lerna bootstrap --ignore=dependencies"
   }
 }
