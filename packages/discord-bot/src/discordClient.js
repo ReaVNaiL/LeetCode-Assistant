@@ -74,10 +74,10 @@ function InitializeClient() {
     });
 
     client.on('ready', () => {
-        console.log(`Logged in as ${client.user.tag}!`);
+        console.log(`[dqwdqdw] Logged in as ${client.user.tag}!`);
 
         // Set the bot status
-        SetBotStatus(client, 'Nyan-Cat <3');
+        SetBotStatus(client, 'Nyan-Cat :3');
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
