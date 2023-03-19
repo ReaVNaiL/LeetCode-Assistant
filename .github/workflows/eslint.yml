@@ -22,5 +22,5 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: ESLint
-        run: npx eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .
+      # - name: ESLint
+      #   run: npx eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .

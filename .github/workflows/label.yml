@@ -16,8 +16,8 @@ jobs:
       contents: read
       pull-requests: write
 
-    steps:
-    - name: Review Labeler 
-      uses: actions/labeler@v4
-      with:
-        repo-token: "${{ secrets.LABELER_TOKEN }}"
+    # steps:
+    # - name: Review Labeler 
+    #   uses: actions/labeler@v4
+    #   with:
+    #     repo-token: "${{ secrets.LABELER_TOKEN }}"
