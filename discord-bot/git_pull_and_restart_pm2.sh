@@ -13,5 +13,4 @@ if [ "$(git diff --shortstat)" != "" ]; then
   pm2 start LeetCode-Bot
 fi
 
-pm2 stop LeetCode-Bot
 pm2 start LeetCode-Bot
