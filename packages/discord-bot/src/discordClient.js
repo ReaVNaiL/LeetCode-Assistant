@@ -42,7 +42,6 @@ async function initializeBotInteractions(interaction) {
         await interaction.reply(`Here are the problems for ${company}!`);
     }
 
-    
     if (commandName === 'leaderboard') {
         await interaction.reply('*NOT IMPLEMENTED*');
     } else if (commandName === 'help') {
