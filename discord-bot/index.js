@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 const cron = require('node-cron');
 
 // define the task to run every 24 hours
-const task = cron.schedule('10 0 * * *', () => {
+const task = cron.schedule('13 0 * * *', () => {
   console.log('Running git pull and pm2 restart...');
 
   // spawn the child process
