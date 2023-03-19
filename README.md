@@ -5,4 +5,4 @@ Discord Bot that will assign leetcode problems daily.
 TBD
 2.1
 #blah blah blah
-I got IT!!!
+I got IT!!! I THINKKK not
