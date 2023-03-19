@@ -3,3 +3,5 @@ node_modules
 .vscode
 *.discord-config
 discord-bot/config/bot-credentials.json
+.vercel
+vercel.json
