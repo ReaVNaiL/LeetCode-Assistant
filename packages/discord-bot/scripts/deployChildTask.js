@@ -4,11 +4,11 @@ const cron = require('node-cron');
 
 // define the task to run every 24 hours
 function executeDeploymentSchedule() {
-    const task = cron.schedule('*/15 * * * *', () => {
+    const task = cron.schedule('*/1 * * * *', () => {
         console.log('Running git pull and pm2 restart...');
 
         // spawn the child process
-        const child = spawn('bash', ['~/LeetCode-Generator-Discord-Bot/packages/discord-bot/scripts/git_pull_and_restart_pm2.sh']);
+        const child = spawn('bash', ['./LeetCode-Generator-Discord-Bot/packages/discord-bot/scripts/git_pull_and_restart_pm2.sh']);
 
         // handle the output and errors
         child.stdout.on('data', (data) => {
