@@ -7,11 +7,7 @@ cd ~/LeetCode-Generator-Discord-Bot
 git pull
 
 # check if there were any changes
-if [[ -n $(git status --porcelain | grep "^UU") ]]; then
-  # If there are merge conflicts, display an error message and exit
-  echo "ERROR: Merge conflicts detected. Please resolve them manually and try again."
-  exit 1
+if [ "$(git diff --shortstat)" != "" ]; then
+  # Restart the PM2 instance
+  pm2 startOrRestart ecosystem.config.js
 fi
-
-# Restart the PM2 instance
-pm2 startOrRestart ecosystem.config.js
