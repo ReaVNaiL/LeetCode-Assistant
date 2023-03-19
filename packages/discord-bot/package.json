@@ -1,6 +1,6 @@
 {
   "name": "discord-bot",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "The discord bot to get up to date problems, and generate dailys!",
   "keywords": [
     "leetcode",
@@ -22,7 +22,9 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "node-cron": "^3.0.2",
-    "pm2": "^5.1.0",
+    "pm2": "^5.1.0"
+  },
+  "devDependencies": {
     "eslint": "^8.36.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5"
