@@ -1,0 +1,22 @@
+name: Update server
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-server:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Install dependencies
+        run: npm install
+      - name: Update server
+        run: |
+          pm2 stop root@debiannext || true
+          git pull origin main
+          pm2 start my-server
