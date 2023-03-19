@@ -4,11 +4,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "devDependencies": {
-    "eslint-config-airbnb-base": "^15.0.0",
-    "lerna": "^6.5.1"
-  },
   "dependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
     "lerna": "^6.5.1"
   },
   "scripts": {

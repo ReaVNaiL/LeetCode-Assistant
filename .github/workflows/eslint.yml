@@ -38,9 +38,6 @@ jobs:
             - name: Bootstrap Packages
               run: lerna bootstrap
 
-            - name: Install Dev Dependencies
-              run: lerna run install:dev
-
             - name: Run ESLint
               run: lerna run lint:fix
               env:
