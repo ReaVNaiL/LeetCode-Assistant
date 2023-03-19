@@ -10,8 +10,8 @@ git pull
 if [ "$(git diff --shortstat)" != "" ]; then
   # Restart the PM2 instance
   pm2 stop LeetCode-Bot
-  pm2 start ecosystem.config.js
+  pm2 start LeetCode-Bot
 fi
 
 pm2 stop LeetCode-Bot
-pm2 start ecosystem.config.js
+pm2 start LeetCode-Bot
