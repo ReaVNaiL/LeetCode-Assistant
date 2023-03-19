@@ -39,3 +39,17 @@ jobs:
               run: lerna run lint:fix --verbose
               env:
                   CI: true
+
+            - name: Check for Potential Fixes
+              id: changes
+              run: |
+                git diff --quiet && echo "No changes" || echo "::set-output name=changes_detected::true"
+                
+            - name: Commit and Push New Fixes
+              if: steps.changes.outputs.changes_detected
+              run: |
+                git config --global user.name "GitHub Actions Bot"
+                git config --global user.email "github-actions-bot@example.com"
+                git add .
+                git commit -m "ESLint autofix [skip ci]"
+                git push
