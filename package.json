@@ -6,10 +6,5 @@
   ],
   "devDependencies": {
     "lerna": "^6.5.1"
-  },
-  "packages": [
-    "discord-bot",
-    "leetcode-api"
-  ],
-  "version": "independent"
+  }
 }
