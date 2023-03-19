@@ -4,4 +4,13 @@
 cd ~/LeetCode-Generator-Discord-Bot
 
 # pull changes from the remote repository
-git pull
+git fetch
+
+# check if there were any changes
+if [ "$(git diff --shortstat)" != "" ]; then
+  # Restart the PM2 instance
+  git pull
+fi
+
+# change back to the original directory
+cd -
