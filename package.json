@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "axios": "^1.3.4",
     "lerna": "^6.5.1"
   },
   "scripts": {
@@ -12,9 +13,9 @@
     "install:dev": "lerna bootstrap --ignore=dependencies"
   },
   "devDependencies": {
+    "discord.js": "^14.7.1",
     "eslint": "^8.36.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "discord.js": "^14.7.1"
+    "eslint-plugin-import": "^2.27.5"
   }
 }
