@@ -7,7 +7,7 @@ cd ~/LeetCode-Generator-Discord-Bot
 git pull
 
 # check if there were any changes
-if [ "$(git diff --shortstat)" != "" ]; then
+if [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]; then
   # Restart the PM2 instance
   pm2 start LeetCode-Bot
 fi
