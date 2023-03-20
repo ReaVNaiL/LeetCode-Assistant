@@ -14,8 +14,7 @@ router.get('/search', (req, res) => {
     if (req.query.index) {
         data = problems.printElement(req.query.index);
     } else if (req.query.link) {
-        data = req.query.link;
-        // data = problems.getProblemByUrl(req.query.link);
+        data = problems.getProblemByUrl(req.query.link);
     }
     res.send(`${JSON.stringify(data)}`);
 });

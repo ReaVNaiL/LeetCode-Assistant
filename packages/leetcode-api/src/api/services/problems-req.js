@@ -17,7 +17,25 @@ function printElement(index) {
     return 'Problem not found, please try a different index.';
 }
 
-function getProblemByUrl(problem_url) {}
+function getProblemByUrl(problemUrl) {
+    const linkSlug = problemUrl.split('/')[4];
+    let dailyProblem = {
+        difficulty: 0,
+        link: '',
+        title: ''
+    };
+
+    problems.forEach((problem, index) => {
+        const problemSlug = problem['stat']['question__title_slug'];
+        if (problemSlug === linkSlug) {
+            dailyProblem['difficulty'] = problem['difficulty']['level'];
+            dailyProblem['title'] = problem['stat']['question__title'];
+            dailyProblem['link'] = problemUrl;
+        }
+    });
+
+    return dailyProblem;
+}
 
 function arrangeProblemSets() {
     problemList = [[], [], []];
