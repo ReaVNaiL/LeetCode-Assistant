@@ -17,6 +17,8 @@ function printElement(index) {
     return 'Problem not found, please try a different index.';
 }
 
+function getProblemByUrl(problem_url) {}
+
 function arrangeProblemSets() {
     problemList = [[], [], []];
     completedProblemList = [[], [], []];
@@ -39,7 +41,7 @@ function arrangeProblemSets() {
 
     generateSortedJsonFile('leetcode-data-sorted.json', {
         completedProblemList,
-        problemList,
+        problemList
     });
 
     return { completedProblemList, problemList };
@@ -60,7 +62,7 @@ function createBaseModel(problemSet) {
         isCompleted: problemSet.status == 'ac' ? true : false,
         questionUrl: problemSet.stat.question__title_slug,
         isNewQuestion: problemSet.stat.is_new_question,
-        paidOnly: problemSet.paid_only,
+        paidOnly: problemSet.paid_only
     };
 }
 
@@ -86,3 +88,4 @@ function sortArray(arr, index) {
 
 module.exports.printElement = printElement;
 module.exports.arrangeProblemSets = arrangeProblemSets;
+module.exports.getProblemByUrl = getProblemByUrl;
