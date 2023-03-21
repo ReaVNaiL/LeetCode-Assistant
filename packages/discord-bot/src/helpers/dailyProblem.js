@@ -1,10 +1,20 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const cron = require('node-cron');
+const fs = require('fs');
 const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
+const { SetCountBotStatus } = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '0 12 * * *';
+const CRON_SCHEDULE = '10 16 * * *'; // 4:10 PM EST
+
+/**
+ * Get Current Progress List
+ * @returns {Object} Count of problems left
+ */
+function getCurrentProgressList() {
+    return 150 - Object.keys(problemList).length;
+}
 
 /**
  * This function is used to build the string for the daily problem
@@ -21,18 +31,23 @@ async function dailyProblemStringBuilder(
     problemType,
     problemDifficulty,
     problemLink,
-    isEveryOne = false
+    isEveryOne = false,
+    inChannel = false
 ) {
-    await interaction.reply({
-        content: `
-    :wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
-**:small_blue_diamond:  ${problemTitle}**
+    const output = `
+:wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
+**:small_blue_diamond: :eyes: ${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
-    `,
-        allowedMentions: { parse: ['everyone'] }
-    });
+    `;
+    if (!inChannel) {
+        await interaction.reply({
+            content: output,
+            allowedMentions: { parse: ['everyone'] }
+        });
+    }
+    return output;
 }
 
 /**
@@ -67,9 +82,23 @@ async function getDailyProblem() {
 /**
  * Start the task to remove the problem from the list after 24 hours
  */
-function removeProblemFromList() {
+function removeProblemFromList(client) {
     cron.schedule(CRON_SCHEDULE, () => {
         delete problemList[Object.keys(problemList)[0]];
+        // get file path
+        const filePath = require.resolve('../data/daily-list.json');
+
+        // save the new list to the file
+        fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
+            if (err) console.log(err);
+            else {
+                console.log(
+                    `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
+                );
+            }
+        });
+
+        SetCountBotStatus(client, getCurrentProgressList());
     });
 }
 
@@ -83,18 +112,18 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {
-            channel.send('Updating the daily problem...');
-            const interaction = { channel };
-
             const daily = await getDailyProblem();
-            await dailyProblemStringBuilder(
-                interaction,
+            const output = await dailyProblemStringBuilder(
+                channel,
                 daily.title,
                 daily.type,
                 daily.difficulty,
                 daily.link,
+                true,
                 true
             );
+
+            channel.send(`Updating the daily problem...\n${output}`);
 
             console.log(
                 `[${getCurrentFormattedDate()}] Daily problem updated!`
@@ -107,5 +136,6 @@ module.exports = {
     dailyProblemStringBuilder,
     getDailyProblem,
     removeProblemFromList,
-    sendDailyProblemMessage
+    sendDailyProblemMessage,
+    getCurrentProgressList
 };
