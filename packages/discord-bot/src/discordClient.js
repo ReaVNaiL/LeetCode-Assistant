@@ -4,7 +4,8 @@ const {
     dailyProblemStringBuilder,
     getDailyProblem,
     removeProblemFromList,
-    sendDailyProblemMessage
+    sendDailyProblemMessage,
+    skipDailyProblem
 } = require('./helpers/dailyProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
@@ -21,7 +22,7 @@ const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
  *  a button, a select menu, etc.
  * @returns
  */
-async function initializeBotInteractions(interaction) {
+async function initializeBotInteractions(client, interaction) {
     console.log('\n----------------------------------------');
     console.log(`Request received from ${interaction.user.tag}!`);
     console.log(
@@ -44,6 +45,16 @@ async function initializeBotInteractions(interaction) {
             daily.difficulty,
             daily.link
         );
+    }
+
+    if (commandName === 'skip-daily') {
+        const passcode = options.getString('passcode');
+        if (passcode === '4444') {
+            skipDailyProblem(client);
+            await interaction.reply('Daily problem skipped!');
+        } else {
+            await interaction.reply('Incorrect passcode!');
+        }
     }
 
     if (commandName === 'get-company-problems') {
@@ -98,7 +109,7 @@ function InitializeClient() {
     // Initialize the bot interactions
     client.on('interactionCreate', async (interaction) => {
         try {
-            await initializeBotInteractions(interaction);
+            await initializeBotInteractions(client, interaction);
         } catch (error) {
             console.error(error);
             await interaction.reply({
