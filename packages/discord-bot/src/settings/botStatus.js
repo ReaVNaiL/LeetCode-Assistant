@@ -28,7 +28,7 @@ function SetCountBotStatus(client, count) {
                 name: status,
                 type: ActivityType.Playing,
                 details: 'Progress',
-                state: `${count}/150`,
+                state: `${count}`,
                 timestamps: {
                     start: Date.now()
                 }
@@ -45,6 +45,13 @@ function SetCountBotStatus(client, count) {
  * @param {Number} intervalMinutes - The interval in minutes to update the status
  */
 function scheduleStatusUpdate(client, count, intervalMinutes = 5) {
+    // Get current status
+    const currentStatus = client.user.presence.activities[0].state;
+
+    if (currentStatus === count) {
+        return;
+    }
+
     cron.schedule(`*/${intervalMinutes} * * * *`, () => {
         SetCountBotStatus(client, count);
     });

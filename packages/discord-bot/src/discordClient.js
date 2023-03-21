@@ -131,7 +131,7 @@ function InitializeClient() {
     sendDailyProblemMessage(client, CHANNEL_ID);
 
     // Update the bot status every 5 minutes
-    scheduleStatusUpdate(client, getCurrentProgressList());
+    scheduleStatusUpdate(client, getCurrentProgressList(), 1);
 
     return client;
 }
