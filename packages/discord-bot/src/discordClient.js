@@ -9,7 +9,7 @@ const {
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
-const { SetBotStatus } = require('./settings/botStatus');
+const { SetCountBotStatus } = require('./settings/botStatus');
 
 /* GLOBALS */
 const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
@@ -89,7 +89,7 @@ function InitializeClient() {
         );
 
         // Set the bot status
-        SetBotStatus(client, 'Nyan-Cat >:3');
+        SetCountBotStatus(client, 0);
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
@@ -109,7 +109,7 @@ function InitializeClient() {
     });
 
     // Start the task to remove the problem from the list after 24 hours
-    removeProblemFromList();
+    removeProblemFromList(client);
 
     // Update daily message every 24 hours
     sendDailyProblemMessage(client, CHANNEL_ID);
