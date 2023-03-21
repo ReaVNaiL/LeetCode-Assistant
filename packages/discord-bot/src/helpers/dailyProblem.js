@@ -1,25 +1,35 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable no-console */
 const axios = require('axios');
+const cron = require('node-cron');
 const problemList = require('../data/daily-list.json');
+const { getCurrentFormattedDate } = require('./timeHandler');
+
+const CRON_SCHEDULE = '0 12 * * *';
 
 /**
  * This function is used to build the string for the daily problem
  * @param {Object} interaction - The interaction object
+ * @param {String} problemTitle - The title of the problem
+ * @param {String} problemType - The type of the problem
+ * @param {String} problemDifficulty - The difficulty of the problem
+ * @param {String} problemLink - The link to the problem
+ * @param {Boolean} isEveryOne - If the message should mention everyone
  */
 async function dailyProblemStringBuilder(
     interaction,
     problemTitle,
     problemType,
     problemDifficulty,
-    problemLink
+    problemLink,
+    isEveryOne = false
 ) {
     await interaction.reply({
         content: `
-    :wave:Here is your Daily Problem! @everyone:white_check_mark:
+    :wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
 **:small_blue_diamond:  ${problemTitle}**
 **:small_blue_diamond: Problem Type:**  ${problemType}
-**:small_blue_diamond: Difficulty:**    ${problemDifficulty}
-**:small_blue_diamond: Problem Link :mag::**    ${problemLink}
+**:small_blue_diamond: Difficulty:**  ${problemDifficulty}
+**:small_blue_diamond: Problem Link :mag::**  ${problemLink}
     `,
         allowedMentions: { parse: ['everyone'] }
     });
@@ -40,21 +50,62 @@ async function requestProblemInfo(problemLink) {
 
 /**
  * Get a problem from the list of problems, and request the API for the problem details
+ * @returns {Object} - The problem details:
+ *
+ * { `title`, `type`, `difficulty`, `link` }
  */
 async function getDailyProblem() {
     const problemLink = Object.keys(problemList)[0];
     const problemReq = await requestProblemInfo(problemLink);
     const problemInfo = problemReq.data;
 
-    // Remove the problem from the list after 24 hours
-    setTimeout(() => {
-        delete problemList[problemLink];
-    }, 86400000);
-
     problemInfo.type = problemList[problemLink];
 
     return problemInfo;
 }
 
-exports.dailyProblemStringBuilder = dailyProblemStringBuilder;
-exports.getDailyProblem = getDailyProblem;
+/**
+ * Start the task to remove the problem from the list after 24 hours
+ */
+function removeProblemFromList() {
+    cron.schedule(CRON_SCHEDULE, () => {
+        delete problemList[Object.keys(problemList)[0]];
+    });
+}
+
+/**
+ * Send the daily problem message to the channel every day at 12:00 PM
+ * @param {Object} client - The Discord client
+ * @param {String} CHANNEL_ID - The channel ID
+ */
+function sendDailyProblemMessage(client, CHANNEL_ID) {
+    cron.schedule(CRON_SCHEDULE, async () => {
+        const channel = client.channels.cache.get(CHANNEL_ID);
+
+        if (channel) {
+            channel.send('Updating the daily problem...');
+            const interaction = { channel };
+
+            const daily = await getDailyProblem();
+            await dailyProblemStringBuilder(
+                interaction,
+                daily.title,
+                daily.type,
+                daily.difficulty,
+                daily.link,
+                true
+            );
+
+            console.log(
+                `[${getCurrentFormattedDate()}] Daily problem updated!`
+            );
+        }
+    });
+}
+
+module.exports = {
+    dailyProblemStringBuilder,
+    getDailyProblem,
+    removeProblemFromList,
+    sendDailyProblemMessage
+};
