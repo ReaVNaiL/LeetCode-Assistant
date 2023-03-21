@@ -17,6 +17,43 @@ function printElement(index) {
     return 'Problem not found, please try a different index.';
 }
 
+function getProblemByUrl(problemUrl) {
+    const linkSlug = problemUrl.split('/')[4];
+    let dailyProblem = {
+        difficulty: 0,
+        link: '',
+        title: ''
+    };
+
+    // Note: This is a synchronous function, but it's okay because it's only called once.
+    problems.forEach((problem, index) => {
+        const problemSlug = problem['stat']['question__title_slug'];
+        if (problemSlug === linkSlug) {
+            dailyProblem['difficulty'] = problem['difficulty']['level'];
+            dailyProblem['title'] = problem['stat']['question__title'];
+            dailyProblem['link'] = problemUrl;
+        }
+    });
+
+    // Replace the difficulty number with the string
+    switch (dailyProblem['difficulty']) {
+        case 1:
+            dailyProblem['difficulty'] = 'Easy';
+            break;
+        case 2:
+            dailyProblem['difficulty'] = 'Medium';
+            break;
+        case 3:
+            dailyProblem['difficulty'] = 'Hard';
+            break;
+        default:
+            dailyProblem['difficulty'] = 'Unknown';
+            break;
+    }
+
+    return dailyProblem;
+}
+
 function arrangeProblemSets() {
     problemList = [[], [], []];
     completedProblemList = [[], [], []];
@@ -39,7 +76,7 @@ function arrangeProblemSets() {
 
     generateSortedJsonFile('leetcode-data-sorted.json', {
         completedProblemList,
-        problemList,
+        problemList
     });
 
     return { completedProblemList, problemList };
@@ -60,7 +97,7 @@ function createBaseModel(problemSet) {
         isCompleted: problemSet.status == 'ac' ? true : false,
         questionUrl: problemSet.stat.question__title_slug,
         isNewQuestion: problemSet.stat.is_new_question,
-        paidOnly: problemSet.paid_only,
+        paidOnly: problemSet.paid_only
     };
 }
 
@@ -86,3 +123,4 @@ function sortArray(arr, index) {
 
 module.exports.printElement = printElement;
 module.exports.arrangeProblemSets = arrangeProblemSets;
+module.exports.getProblemByUrl = getProblemByUrl;
