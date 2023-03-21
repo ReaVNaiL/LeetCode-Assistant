@@ -1,5 +1,6 @@
 // Modules import
 const problems = require('../data/leetcode-data.json').stat_status_pairs;
+const dailyProblemList = require('../data/daily-list.json');
 const problemCount = problems.length;
 const fs = require('fs');
 
@@ -82,6 +83,22 @@ function arrangeProblemSets() {
     return { completedProblemList, problemList };
 }
 
+/**
+ * Get a problem from the list of problems, and request the API for the problem details
+ * @returns {Object} - The problem details:
+ *
+ * { `title`, `type`, `difficulty`, `link` }
+ */
+async function getDailyProblem() {
+    const problemLink = Object.keys(problemList)[0];
+    const problemReq = getProblemByUrl(problemLink);
+    const problemInfo = problemReq.data;
+
+    problemInfo.type = problemList[problemLink];
+
+    return problemInfo;
+}
+
 ///
 /// Helper Functions
 ///
@@ -121,6 +138,8 @@ function sortArray(arr, index) {
 /// End Of Helper Functions
 ///
 
-module.exports.printElement = printElement;
-module.exports.arrangeProblemSets = arrangeProblemSets;
-module.exports.getProblemByUrl = getProblemByUrl;
+module.exports = {
+    printElement,
+    arrangeProblemSets,
+    getProblemByUrl
+};
