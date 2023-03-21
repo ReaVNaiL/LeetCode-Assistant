@@ -1,4 +1,5 @@
 const { ActivityType } = require('discord.js');
+const { getCurrentProgressList } = require('../helpers/dailyProblem');
 
 function SetBotStatus(client, status) {
     client.user.setPresence({
@@ -13,4 +14,20 @@ function SetBotStatus(client, status) {
     });
 }
 
-exports.SetBotStatus = SetBotStatus;
+function SetCountBotStatus(client) {
+    const status = `Progress ${getCurrentProgressList} / 150`;
+    client.user.setPresence({
+        activities: [
+            {
+                name: status,
+                type: ActivityType.Custom
+            }
+        ],
+        status: 'online'
+    });
+}
+
+module.exports = {
+    SetBotStatus,
+    SetCountBotStatus
+};
