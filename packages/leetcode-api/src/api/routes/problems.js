@@ -9,7 +9,13 @@ const problems = require('../services/problems-req');
 
 // Get URL for given Index Problem
 router.get('/search', (req, res) => {
-    let data = problems.printElement(req.query.index);
+    let data = {}
+
+    if (req.query.index) {
+        data = problems.printElement(req.query.index);
+    } else if (req.query.link) {
+        data = problems.getProblemByUrl(req.query.link);
+    }
     res.send(`${JSON.stringify(data)}`);
 });
 
@@ -36,6 +42,8 @@ router.get('/refresh', (req, res) => {
 router.get('/all', (req, res) => {
     res.send(problems.arrangeProblemSets());
 });
+
+
 
 // Always export the router so it can be accessed in the main index.js file
 module.exports = router;
