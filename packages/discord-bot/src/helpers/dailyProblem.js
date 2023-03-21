@@ -103,9 +103,18 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
     });
 }
 
+/**
+ * Get Current Progress List
+ * @returns {Object} - The problem list
+ */
+function getCurrentProgressList() {
+    return 150 - problemList.length;
+}
+
 module.exports = {
     dailyProblemStringBuilder,
     getDailyProblem,
     removeProblemFromList,
-    sendDailyProblemMessage
+    sendDailyProblemMessage,
+    getCurrentProgressList
 };
