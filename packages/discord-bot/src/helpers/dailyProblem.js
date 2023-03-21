@@ -14,11 +14,11 @@ async function dailyProblemStringBuilder(
     problemLink
 ) {
     await interaction.reply(`
-      Here is your Daily Problem! :white_check_mark:
-**:small_blue_diamond: ${problemTitle}**
-**:small_blue_diamond: Problem Type:** ${problemType}
-**:small_blue_diamond: Difficulty:** ${problemDifficulty}
-**:small_blue_diamond: Problem Link:** ${problemLink}
+    :wave:Here is your Daily Problem! @everyone:white_check_mark:
+**:small_blue_diamond:  ${problemTitle}**
+**:small_blue_diamond: Problem Type:**  ${problemType}
+**:small_blue_diamond: Difficulty:**    ${problemDifficulty}
+**:small_blue_diamond: Problem Link :mag::**    ${problemLink}
     `);
 }
 
