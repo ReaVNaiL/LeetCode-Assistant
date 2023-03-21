@@ -45,6 +45,10 @@ function SetCountBotStatus(client, count) {
  * @param {Number} intervalMinutes - The interval in minutes to update the status
  */
 function scheduleStatusUpdate(client, count, intervalMinutes = 5) {
+    if (!client || !client.user) {
+        return;
+    }
+
     // Get current status
     const currentStatus = client.user.presence.activities[0].state;
 
