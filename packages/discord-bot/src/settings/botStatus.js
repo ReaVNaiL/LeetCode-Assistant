@@ -15,15 +15,20 @@ function SetBotStatus(client, status) {
 }
 
 function SetCountBotStatus(client) {
-    const status = `Progress ${getCurrentProgressList} / 150`;
+    const status = `Progress ${getCurrentProgressList()}/150`;
     client.user.setPresence({
         activities: [
             {
                 name: status,
-                type: ActivityType.Custom
+                type: ActivityType.Playing,
+                details: 'Progress',
+                state: `${getCurrentProgressList()}/150`,
+                timestamps: {
+                    start: Date.now()
+                }
             }
         ],
-        status: 'online'
+        status: 'dnd'
     });
 }
 

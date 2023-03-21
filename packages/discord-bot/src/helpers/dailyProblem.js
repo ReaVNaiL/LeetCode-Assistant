@@ -108,7 +108,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
  * @returns {Object} - The problem list
  */
 function getCurrentProgressList() {
-    return 150 - problemList.length;
+    return 150 - Object.keys(problemList).length;
 }
 
 module.exports = {
