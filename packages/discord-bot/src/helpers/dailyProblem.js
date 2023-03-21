@@ -13,13 +13,16 @@ async function dailyProblemStringBuilder(
     problemDifficulty,
     problemLink
 ) {
-    await interaction.reply(`
+    await interaction.reply({
+        content: `
     :wave:Here is your Daily Problem! @everyone:white_check_mark:
 **:small_blue_diamond:  ${problemTitle}**
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**    ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**    ${problemLink}
-    `);
+    `,
+        allowedMentions: { parse: ['everyone'] }
+    });
 }
 
 /**
