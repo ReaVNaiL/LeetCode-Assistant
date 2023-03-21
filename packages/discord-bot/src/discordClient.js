@@ -2,12 +2,17 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const {
     dailyProblemStringBuilder,
-    getDailyProblem
+    getDailyProblem,
+    removeProblemFromList,
+    sendDailyProblemMessage
 } = require('./helpers/dailyProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
 const { SetBotStatus } = require('./settings/botStatus');
+
+/* GLOBALS */
+const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
 
 /**
  * Handles all incoming interactions from the Discord API.
@@ -32,7 +37,6 @@ async function initializeBotInteractions(interaction) {
 
     if (commandName === 'get-my-daily') {
         const daily = await getDailyProblem();
-
         await dailyProblemStringBuilder(
             interaction,
             daily.title,
@@ -103,6 +107,12 @@ function InitializeClient() {
             });
         }
     });
+
+    // Start the task to remove the problem from the list after 24 hours
+    removeProblemFromList();
+
+    // Update daily message every 24 hours
+    sendDailyProblemMessage(client, CHANNEL_ID);
 
     return client;
 }
