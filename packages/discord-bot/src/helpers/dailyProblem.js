@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const axios = require('axios');
 const problemList = require('../data/daily-list.json');
+const cron = require('node-cron');
 
 /**
  * This function is used to build the string for the daily problem
@@ -15,11 +16,11 @@ async function dailyProblemStringBuilder(
 ) {
     await interaction.reply({
         content: `
-    :wave:Here is your Daily Problem! @everyone:white_check_mark:
+    :wave: @everyone Here is your Daily Problem! :white_check_mark:
 **:small_blue_diamond:  ${problemTitle}**
 **:small_blue_diamond: Problem Type:**  ${problemType}
-**:small_blue_diamond: Difficulty:**    ${problemDifficulty}
-**:small_blue_diamond: Problem Link :mag::**    ${problemLink}
+**:small_blue_diamond: Difficulty:**  ${problemDifficulty}
+**:small_blue_diamond: Problem Link :mag::**  ${problemLink}
     `,
         allowedMentions: { parse: ['everyone'] }
     });
@@ -39,17 +40,21 @@ async function requestProblemInfo(problemLink) {
 }
 
 /**
+ * Start the task to remove the problem from the list after 24 hours
+ */
+function removeProblemFromList() {
+    cron.schedule('0 12 * * *', () => {
+        delete problemList[Object.keys(problemList)[0]];
+    });
+}
+
+/**
  * Get a problem from the list of problems, and request the API for the problem details
  */
 async function getDailyProblem() {
     const problemLink = Object.keys(problemList)[0];
     const problemReq = await requestProblemInfo(problemLink);
     const problemInfo = problemReq.data;
-
-    // Remove the problem from the list after 24 hours
-    setTimeout(() => {
-        delete problemList[problemLink];
-    }, 86400000);
 
     problemInfo.type = problemList[problemLink];
 
@@ -58,3 +63,4 @@ async function getDailyProblem() {
 
 exports.dailyProblemStringBuilder = dailyProblemStringBuilder;
 exports.getDailyProblem = getDailyProblem;
+exports.removeProblemFromList = removeProblemFromList;
