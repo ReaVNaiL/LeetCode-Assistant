@@ -9,17 +9,23 @@ const CRON_SCHEDULE = '0 12 * * *';
 /**
  * This function is used to build the string for the daily problem
  * @param {Object} interaction - The interaction object
+ * @param {String} problemTitle - The title of the problem
+ * @param {String} problemType - The type of the problem
+ * @param {String} problemDifficulty - The difficulty of the problem
+ * @param {String} problemLink - The link to the problem
+ * @param {Boolean} isEveryOne - If the message should mention everyone
  */
 async function dailyProblemStringBuilder(
     interaction,
     problemTitle,
     problemType,
     problemDifficulty,
-    problemLink
+    problemLink,
+    isEveryOne = false
 ) {
     await interaction.reply({
         content: `
-    :wave: @everyone Here is your Daily Problem! :white_check_mark:
+    :wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
 **:small_blue_diamond:  ${problemTitle}**
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
@@ -44,6 +50,9 @@ async function requestProblemInfo(problemLink) {
 
 /**
  * Get a problem from the list of problems, and request the API for the problem details
+ * @returns {Object} - The problem details:
+ *
+ * { `title`, `type`, `difficulty`, `link` }
  */
 async function getDailyProblem() {
     const problemLink = Object.keys(problemList)[0];
@@ -65,7 +74,7 @@ function removeProblemFromList() {
 }
 
 /**
- * Send the daily problem message to the channel
+ * Send the daily problem message to the channel every day at 12:00 PM
  * @param {Object} client - The Discord client
  * @param {String} CHANNEL_ID - The channel ID
  */
@@ -83,7 +92,8 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
                 daily.title,
                 daily.type,
                 daily.difficulty,
-                daily.link
+                daily.link,
+                true
             );
 
             console.log(
