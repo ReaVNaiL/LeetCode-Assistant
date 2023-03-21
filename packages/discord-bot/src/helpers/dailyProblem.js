@@ -4,8 +4,17 @@ const cron = require('node-cron');
 const fs = require('fs');
 const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
+const { SetCountBotStatus } = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '* 16 * * *';
+const CRON_SCHEDULE = '10 16 * * *'; // 4:10 PM EST
+
+/**
+ * Get Current Progress List
+ * @returns {Object} Count of problems left
+ */
+function getCurrentProgressList() {
+    return 150 - Object.keys(problemList).length;
+}
 
 /**
  * This function is used to build the string for the daily problem
@@ -26,7 +35,7 @@ async function dailyProblemStringBuilder(
     inChannel = false
 ) {
     const output = `
-    :wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
+:wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
 **:small_blue_diamond: :eyes: ${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
@@ -73,21 +82,23 @@ async function getDailyProblem() {
 /**
  * Start the task to remove the problem from the list after 24 hours
  */
-function removeProblemFromList() {
+function removeProblemFromList(client) {
     cron.schedule(CRON_SCHEDULE, () => {
         delete problemList[Object.keys(problemList)[0]];
         // get file path
         const filePath = require.resolve('../data/daily-list.json');
 
         // save the new list to the file
-        fs.writeFile(
-            filePath,
-            JSON.stringify(problemList, null, 4),
-            (err) => {
-                if (err) console.log(err);
-                else console.log(`[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`);
+        fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
+            if (err) console.log(err);
+            else {
+                console.log(
+                    `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
+                );
             }
-        );
+        });
+
+        SetCountBotStatus(client, getCurrentProgressList());
     });
 }
 
@@ -101,8 +112,6 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {
-            channel.send('Updating the daily problem...');
-
             const daily = await getDailyProblem();
             const output = await dailyProblemStringBuilder(
                 channel,
@@ -114,21 +123,13 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
                 true
             );
 
-            channel.send(output);
+            channel.send(`Updating the daily problem...\n${output}`);
 
             console.log(
                 `[${getCurrentFormattedDate()}] Daily problem updated!`
             );
         }
     });
-}
-
-/**
- * Get Current Progress List
- * @returns {Object} - The problem list
- */
-function getCurrentProgressList() {
-    return 150 - Object.keys(problemList).length;
 }
 
 module.exports = {
