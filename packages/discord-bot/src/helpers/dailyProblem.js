@@ -5,7 +5,7 @@ const fs = require('fs');
 const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '*/1 * * * *';
+const CRON_SCHEDULE = '* 16 * * *';
 
 /**
  * This function is used to build the string for the daily problem
@@ -76,13 +76,16 @@ async function getDailyProblem() {
 function removeProblemFromList() {
     cron.schedule(CRON_SCHEDULE, () => {
         delete problemList[Object.keys(problemList)[0]];
+        // get file path
+        const filePath = require.resolve('../data/daily-list.json');
+
         // save the new list to the file
         fs.writeFile(
-            '../data/daily-list.json',
+            filePath,
             JSON.stringify(problemList, null, 4),
             (err) => {
                 if (err) console.log(err);
-                else console.log('File written succesfully');
+                else console.log(`[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`);
             }
         );
     });
