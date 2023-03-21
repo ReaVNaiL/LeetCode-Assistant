@@ -16,6 +16,18 @@
         ]
     },
     {
+        "name": "skip-daily",
+        "description": "Skip your daily problem! (ADMIN ONLY)",
+        "options": [
+            {
+                "name": "passcode",
+                "description": "The passcode to skip the daily problem.",
+                "type": 3,
+                "required": true
+            }
+        ]
+    },
+    {
         "name": "leaderboard",
         "description": "Get the leaderboard for all users!"
     },
