@@ -25,6 +25,7 @@ function getProblemByUrl(problemUrl) {
         title: ''
     };
 
+    // Note: This is a synchronous function, but it's okay because it's only called once.
     problems.forEach((problem, index) => {
         const problemSlug = problem['stat']['question__title_slug'];
         if (problemSlug === linkSlug) {
@@ -33,6 +34,22 @@ function getProblemByUrl(problemUrl) {
             dailyProblem['link'] = problemUrl;
         }
     });
+
+    // Replace the difficulty number with the string
+    switch (dailyProblem['difficulty']) {
+        case 1:
+            dailyProblem['difficulty'] = 'Easy';
+            break;
+        case 2:
+            dailyProblem['difficulty'] = 'Medium';
+            break;
+        case 3:
+            dailyProblem['difficulty'] = 'Hard';
+            break;
+        default:
+            dailyProblem['difficulty'] = 'Unknown';
+            break;
+    }
 
     return dailyProblem;
 }
