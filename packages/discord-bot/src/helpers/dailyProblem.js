@@ -6,7 +6,7 @@ const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const { SetCountBotStatus } = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '40 16 * * *'; // 4:40 PM
+const CRON_SCHEDULE = '* 19 * * *'; // 7:00 PM
 
 /**
  * Get Current Progress List

@@ -5,3 +5,4 @@ node_modules
 .vercel
 vercel.json
 packages/discord-bot/config/bot-credentials.json
+packages/discord-bot/src/data/daily-list.json
