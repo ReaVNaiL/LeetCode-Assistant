@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const cron = require('node-cron');
+const fs = require('fs');
 const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '0 12 * * *';
+const CRON_SCHEDULE = '*/1 * * * *';
 
 /**
  * This function is used to build the string for the daily problem
@@ -21,18 +22,23 @@ async function dailyProblemStringBuilder(
     problemType,
     problemDifficulty,
     problemLink,
-    isEveryOne = false
+    isEveryOne = false,
+    inChannel = false
 ) {
-    await interaction.reply({
-        content: `
+    const output = `
     :wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
-**:small_blue_diamond:  ${problemTitle}**
+**:small_blue_diamond: :eyes: ${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
-    `,
-        allowedMentions: { parse: ['everyone'] }
-    });
+    `;
+    if (!inChannel) {
+        await interaction.reply({
+            content: output,
+            allowedMentions: { parse: ['everyone'] }
+        });
+    }
+    return output;
 }
 
 /**
@@ -70,6 +76,15 @@ async function getDailyProblem() {
 function removeProblemFromList() {
     cron.schedule(CRON_SCHEDULE, () => {
         delete problemList[Object.keys(problemList)[0]];
+        // save the new list to the file
+        fs.writeFile(
+            '../data/daily-list.json',
+            JSON.stringify(problemList, null, 4),
+            (err) => {
+                if (err) console.log(err);
+                else console.log('File written succesfully');
+            }
+        );
     });
 }
 
@@ -84,17 +99,19 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
 
         if (channel) {
             channel.send('Updating the daily problem...');
-            const interaction = { channel };
 
             const daily = await getDailyProblem();
-            await dailyProblemStringBuilder(
-                interaction,
+            const output = await dailyProblemStringBuilder(
+                channel,
                 daily.title,
                 daily.type,
                 daily.difficulty,
                 daily.link,
+                true,
                 true
             );
+
+            channel.send(output);
 
             console.log(
                 `[${getCurrentFormattedDate()}] Daily problem updated!`
