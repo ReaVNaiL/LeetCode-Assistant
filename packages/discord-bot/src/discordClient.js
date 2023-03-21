@@ -5,12 +5,17 @@ const {
     getDailyProblem,
     removeProblemFromList,
     sendDailyProblemMessage,
-    skipDailyProblem
+    skipDailyProblem,
+    getCurrentProgressList
 } = require('./helpers/dailyProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
-const { SetCountBotStatus } = require('./settings/botStatus');
+
+const {
+    SetCountBotStatus,
+    scheduleStatusUpdate
+} = require('./settings/botStatus');
 
 /* GLOBALS */
 const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
@@ -124,6 +129,9 @@ function InitializeClient() {
 
     // Update daily message every 24 hours
     sendDailyProblemMessage(client, CHANNEL_ID);
+
+    // Update the bot status every 5 minutes
+    scheduleStatusUpdate(client, getCurrentProgressList());
 
     return client;
 }

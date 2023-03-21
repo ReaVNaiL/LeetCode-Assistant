@@ -1,3 +1,4 @@
+const cron = require('node-cron');
 const { ActivityType } = require('discord.js');
 
 function SetBotStatus(client, status) {
@@ -37,7 +38,20 @@ function SetCountBotStatus(client, count) {
     });
 }
 
+/**
+ * Create Task to update the bot status
+ * @param {Client} client - The Discord client object
+ * @param {Number} count - The current progress count
+ * @param {Number} intervalMinutes - The interval in minutes to update the status
+ */
+function scheduleStatusUpdate(client, count, intervalMinutes = 5) {
+    cron.schedule(`*/${intervalMinutes} * * * *`, () => {
+        SetCountBotStatus(client, count);
+    });
+}
+
 module.exports = {
     SetBotStatus,
-    SetCountBotStatus
+    SetCountBotStatus,
+    scheduleStatusUpdate
 };
