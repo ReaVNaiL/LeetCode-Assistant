@@ -1,5 +1,4 @@
 const { ActivityType } = require('discord.js');
-const { getCurrentProgressList } = require('../helpers/dailyProblem');
 
 function SetBotStatus(client, status) {
     client.user.setPresence({
@@ -14,15 +13,21 @@ function SetBotStatus(client, status) {
     });
 }
 
-function SetCountBotStatus(client) {
-    const status = `Progress ${getCurrentProgressList()}/150`;
+/**
+ * Set the bot status to show the current progress
+ * @param {Client} client - The Discord client object
+ * @param {Number} count - The current progress count
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/Client|Discord.js Client}
+ */
+function SetCountBotStatus(client, count) {
+    const status = `Progress ${count}/150`;
     client.user.setPresence({
         activities: [
             {
                 name: status,
                 type: ActivityType.Playing,
                 details: 'Progress',
-                state: `${getCurrentProgressList()}/150`,
+                state: `${count}/150`,
                 timestamps: {
                     start: Date.now()
                 }
