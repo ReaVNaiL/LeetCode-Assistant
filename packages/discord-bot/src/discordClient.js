@@ -9,7 +9,7 @@ const {
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
-const { SetBotStatus } = require('./settings/botStatus');
+const { SetCountBotStatus } = require('./settings/botStatus');
 
 /* GLOBALS */
 const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
@@ -89,7 +89,7 @@ function InitializeClient() {
         );
 
         // Set the bot status
-        SetBotStatus(client, 'Nyan-Cat >:3');
+        SetCountBotStatus(client);
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
