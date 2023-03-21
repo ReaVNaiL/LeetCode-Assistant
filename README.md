@@ -1,5 +1,8 @@
 # LeetCode-Generator-Discord-Bot
 Discord Bot that will assign leetcode problems daily.
+<p>
+    <img width=435 height=325 src="https://user-images.githubusercontent.com/59776018/226667773-83eead6e-054c-4ac0-9137-b82ead5b8980.png"/>
+</p>
 
 1. Discord Bot that will assign leetcode problems daily.
 2. An API that will generate leetcode problems based on the difficulty level:
