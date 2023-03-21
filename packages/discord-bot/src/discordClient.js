@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
-const { dailyProblemStringBuilder } = require('./helpers/dailyProblem');
+const {
+    dailyProblemStringBuilder,
+    getDailyProblem
+} = require('./helpers/dailyProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
@@ -28,12 +31,14 @@ async function initializeBotInteractions(interaction) {
     const { commandName, options } = interaction;
 
     if (commandName === 'get-my-daily') {
-        // TODO NOTE: This is a placeholder for now
+        const daily = await getDailyProblem();
+
         await dailyProblemStringBuilder(
             interaction,
-            'Two Sum',
-            'Easy',
-            'https://leetcode.com/problems/two-sum/'
+            daily.title,
+            daily.type,
+            daily.difficulty,
+            daily.link
         );
     }
 
