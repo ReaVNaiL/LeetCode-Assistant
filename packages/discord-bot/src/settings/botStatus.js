@@ -39,6 +39,10 @@ function SetCountBotStatus(client, count) {
     });
 }
 
+/**
+ * Get the current progress count from the API
+ * @returns {Object} Count of problems left
+ */
 async function updateStatusCount() {
     const response = await axios.get(
         'https://leetcode-api.klenir.com/problems/daily/count'
@@ -74,5 +78,6 @@ function scheduleStatusUpdate(client, intervalMinutes = 5) {
 module.exports = {
     SetBotStatus,
     SetCountBotStatus,
-    scheduleStatusUpdate
+    scheduleStatusUpdate,
+    updateStatusCount
 };
