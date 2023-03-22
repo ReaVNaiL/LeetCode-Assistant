@@ -99,6 +99,29 @@ function getDailyProblem() {
     return problemInfo;
 }
 
+/**
+ * Skip the daily problem and update the list
+ */
+function skipDailyProblem() {
+    delete problemList[Object.keys(problemList)[0]];
+    // get file path
+    const filePath = require.resolve('../data/daily-list.json');
+
+    // save the new list to the file
+    fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
+        if (err) return err;
+        else return 'Daily problem list updated.';
+    });
+}
+
+/**
+ * Get Current Progress List
+ * @returns {Object} Count of problems left
+ */
+function getCurrentProgressList() {
+    return 150 - Object.keys(problemList).length;
+}
+
 ///
 /// Helper Functions
 ///
@@ -142,5 +165,7 @@ module.exports = {
     printElement,
     arrangeProblemSets,
     getProblemByUrl,
-    getDailyProblem
+    getDailyProblem,
+    skipDailyProblem,
+    getCurrentProgressList
 };

@@ -44,7 +44,15 @@ router.get('/all', (req, res) => {
 });
 
 router.get('/daily', (req, res) => {
-    res.send(problems.getDailyProblem())
+    res.send(problems.getDailyProblem());
+});
+
+router.post('/daily/skip', (req, res) => {
+    res.send(problems.skipDailyProblem());
+});
+
+router.get('/daily/count', (req, res) => {
+    res.send(problems.getCurrentProgressList());
 });
 
 // Always export the router so it can be accessed in the main index.js file
