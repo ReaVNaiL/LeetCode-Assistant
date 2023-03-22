@@ -50,33 +50,20 @@ async function dailyProblemStringBuilder(
     return output;
 }
 
+// `"''"`
+// ([{}])
+
 /**
  * Send the request to the API to get the problem details
  * @param {String} problemLink - The link to the problem
  * @returns {Object} - The problem details
  */
-async function requestProblemInfo(problemLink) {
+async function requestProblemInfo() {
     const problemInfo = await axios.get(
-        `https://leetcode-api.klenir.com/problems/search?link=${problemLink}`
+        'https://leetcode-api.klenir.com/problems/daily'
     );
 
-    return problemInfo;
-}
-
-/**
- * Get a problem from the list of problems, and request the API for the problem details
- * @returns {Object} - The problem details:
- *
- * { `title`, `type`, `difficulty`, `link` }
- */
-async function getDailyProblem() {
-    const problemLink = Object.keys(problemList)[0];
-    const problemReq = await requestProblemInfo(problemLink);
-    const problemInfo = problemReq.data;
-
-    problemInfo.type = problemList[problemLink];
-
-    return problemInfo;
+    return problemInfo.data;
 }
 
 /**
@@ -119,7 +106,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {
-            const daily = await getDailyProblem();
+            const daily = await requestProblemInfo();
             const output = await dailyProblemStringBuilder(
                 channel,
                 daily.title,
@@ -141,7 +128,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
 
 module.exports = {
     dailyProblemStringBuilder,
-    getDailyProblem,
+    requestProblemInfo,
     removeProblemFromList,
     sendDailyProblemMessage,
     getCurrentProgressList,
