@@ -53,7 +53,7 @@ router.post('/daily/skip', (req, res) => {
 
 router.get('/daily/count', (req, res) => {
     const count = problems.getCurrentProgressList();
-    res.send(count.toString());
+    res.send({ count });
 });
 
 // Always export the router so it can be accessed in the main index.js file
