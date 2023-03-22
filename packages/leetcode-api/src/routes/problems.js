@@ -1,5 +1,5 @@
 // Import Modules
-const settings = require('../../config/api-settings.json');
+const settings = require('../config/api-settings.json');
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
@@ -9,7 +9,7 @@ const problems = require('../services/problems-req');
 
 // Get URL for given Index Problem
 router.get('/search', (req, res) => {
-    let data = {}
+    let data = {};
 
     if (req.query.index) {
         data = problems.printElement(req.query.index);
@@ -30,12 +30,11 @@ router.get('/refresh', (req, res) => {
                 Cookie:
                     session == 'enabled'
                         ? `LEETCODE_SESSION=${settings.LEETCODE_SESSION};`
-                        : ``,
-            },
+                        : ``
+            }
         })
         .then((response) => {
             res.send(response.data);
-            console.log(response.data);
         });
 });
 
@@ -43,7 +42,18 @@ router.get('/all', (req, res) => {
     res.send(problems.arrangeProblemSets());
 });
 
+router.get('/daily', (req, res) => {
+    res.send(problems.getDailyProblem());
+});
 
+router.post('/daily/skip', (req, res) => {
+    res.send(problems.skipDailyProblem());
+});
+
+router.get('/daily/count', (req, res) => {
+    const count = problems.getCurrentProgressList();
+    res.send({ count });
+});
 
 // Always export the router so it can be accessed in the main index.js file
 module.exports = router;

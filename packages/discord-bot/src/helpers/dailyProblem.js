@@ -1,20 +1,9 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const cron = require('node-cron');
-const fs = require('fs');
-const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
-const { SetCountBotStatus } = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '* 19 * * *'; // 7:00 PM
-
-/**
- * Get Current Progress List
- * @returns {Object} Count of problems left
- */
-function getCurrentProgressList() {
-    return 150 - Object.keys(problemList).length;
-}
+const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
 
 /**
  * This function is used to build the string for the daily problem
@@ -35,16 +24,16 @@ async function dailyProblemStringBuilder(
     inChannel = false
 ) {
     const output = `
-:wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
-**:small_blue_diamond: :eyes: ${problemTitle}** :eyes:
+:wave: ${isEveryOne ? '@here' : ''} Here is the daily problem for today!
+:eyes: ${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
-    `;
+`;
     if (!inChannel) {
         await interaction.reply({
             content: output,
-            allowedMentions: { parse: ['everyone'] }
+            allowedMentions: { parse: ['here'] }
         });
     }
     return output;
@@ -55,58 +44,16 @@ async function dailyProblemStringBuilder(
  * @param {String} problemLink - The link to the problem
  * @returns {Object} - The problem details
  */
-async function requestProblemInfo(problemLink) {
+async function requestProblemInfo() {
     const problemInfo = await axios.get(
-        `https://leetcode-api.klenir.com/problems/search?link=${problemLink}`
+        'https://leetcode-api.klenir.com/problems/daily'
     );
 
-    return problemInfo;
+    return problemInfo.data;
 }
 
-/**
- * Get a problem from the list of problems, and request the API for the problem details
- * @returns {Object} - The problem details:
- *
- * { `title`, `type`, `difficulty`, `link` }
- */
-async function getDailyProblem() {
-    const problemLink = Object.keys(problemList)[0];
-    const problemReq = await requestProblemInfo(problemLink);
-    const problemInfo = problemReq.data;
-
-    problemInfo.type = problemList[problemLink];
-
-    return problemInfo;
-}
-
-/**
- * Skip the daily problem and update the list
- */
-function skipDailyProblem(client) {
-    delete problemList[Object.keys(problemList)[0]];
-    // get file path
-    const filePath = require.resolve('../data/daily-list.json');
-
-    // save the new list to the file
-    fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
-        if (err) console.log(err);
-        else {
-            console.log(
-                `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
-            );
-        }
-    });
-
-    SetCountBotStatus(client, getCurrentProgressList());
-}
-
-/**
- * Start the task to remove the problem from the list after 24 hours
- */
-function removeProblemFromList(client) {
-    cron.schedule(CRON_SCHEDULE, () => {
-        skipDailyProblem(client);
-    });
+async function requestSkipDailyProblem() {
+    return axios.post('https://leetcode-api.klenir.com/problems/daily/skip');
 }
 
 /**
@@ -119,7 +66,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {
-            const daily = await getDailyProblem();
+            const daily = await requestProblemInfo();
             const output = await dailyProblemStringBuilder(
                 channel,
                 daily.title,
@@ -141,9 +88,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
 
 module.exports = {
     dailyProblemStringBuilder,
-    getDailyProblem,
-    removeProblemFromList,
+    requestProblemInfo,
     sendDailyProblemMessage,
-    getCurrentProgressList,
-    skipDailyProblem
+    requestSkipDailyProblem
 };
