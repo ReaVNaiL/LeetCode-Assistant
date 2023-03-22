@@ -6,8 +6,7 @@ export default function handler (req, res) {
         skipDailyProblem();
         res.status(200).send(`[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`);
     } catch (error) {
-        console.error(`[${getCurrentFormattedDate()}] Daily Problem Update Failed\n
-        ${error}`, error);
-        res.status(500).send('Daily Problem Update Failed');
+        res.status(500).send(`[${getCurrentFormattedDate()}] Daily Problem Update Failed\n
+        ${error}`);
     }
 };
