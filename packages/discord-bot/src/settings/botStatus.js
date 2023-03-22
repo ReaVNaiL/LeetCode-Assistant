@@ -44,19 +44,24 @@ function SetCountBotStatus(client, count) {
  * @param {Number} count - The current progress count
  * @param {Number} intervalMinutes - The interval in minutes to update the status
  */
-function scheduleStatusUpdate(client, count, intervalMinutes = 5) {
-    if (!client || !client.user) {
-        return;
-    }
+function scheduleStatusUpdate(client, intervalMinutes = 5) {
+    cron.schedule(`*/${intervalMinutes} * * * *`, async () => {
+        // eslint-disable-next-line global-require
+        const dailyHandler = require('../helpers/dailyProblem');
 
-    // Get current status
-    const currentStatus = client.user.presence.activities[0].state;
+        const count = await dailyHandler.requestSolvedDailyCount();
 
-    if (currentStatus === count) {
-        return;
-    }
+        if (!client || !client.user) {
+            return;
+        }
 
-    cron.schedule(`*/${intervalMinutes} * * * *`, () => {
+        // Get current status
+        const currentStatus = client.user.presence.activities[0].state;
+
+        if (currentStatus === count) {
+            return;
+        }
+
         SetCountBotStatus(client, count);
     });
 }
