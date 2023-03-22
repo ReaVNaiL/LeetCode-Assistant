@@ -1,14 +1,10 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
 const dailyHandler = require('./helpers/dailyProblem');
+const statusHandler = require('./settings/botStatus');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
-
-const {
-    SetCountBotStatus,
-    scheduleStatusUpdate
-} = require('./settings/botStatus');
 
 /* GLOBALS */
 const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
@@ -97,8 +93,10 @@ function InitializeClient() {
             `[${getCurrentFormattedDate()}] Logged in as ${client.user.tag}!`
         );
 
+        const initCount = await statusHandler.updateStatusCount();
+
         // Set the bot status
-        SetCountBotStatus(client, dailyHandler.requestSolvedDailyCount());
+        statusHandler.SetCountBotStatus(client, initCount);
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
@@ -121,7 +119,7 @@ function InitializeClient() {
     dailyHandler.sendDailyProblemMessage(client, CHANNEL_ID);
 
     // Update the bot status every 1 minutes
-    scheduleStatusUpdate(client, 1);
+    statusHandler.scheduleStatusUpdate(client, 1);
 
     return client;
 }
