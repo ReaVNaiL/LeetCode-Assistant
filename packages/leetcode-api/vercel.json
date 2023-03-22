@@ -13,7 +13,7 @@
     ],
     "crons": [
         {
-            "schedule": "50 9 * * *",
+            "schedule": "30 10 * * *",
             "path": "/jobs/daily"
         }
     ]
