@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '*/1 * * * *'; // 7:00 PM
+const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
 
 /**
  * This function is used to build the string for the daily problem
@@ -37,17 +37,6 @@ async function dailyProblemStringBuilder(
         });
     }
     return output;
-}
-
-/**
- * Get Current Progress List
- * @returns {Object} Count of problems left
- */
-async function requestSolvedDailyCount() {
-    const response = await axios.get(
-        'https://leetcode-api.klenir.com/problems/daily/count'
-    );
-    return response.data.count;
 }
 
 /**
@@ -101,6 +90,5 @@ module.exports = {
     dailyProblemStringBuilder,
     requestProblemInfo,
     sendDailyProblemMessage,
-    requestSolvedDailyCount,
     requestSkipDailyProblem
 };
