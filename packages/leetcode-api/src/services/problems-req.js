@@ -142,7 +142,7 @@ function createBaseModel(problemSet) {
 }
 
 function generateSortedJsonFile(filename, jsonContent) {
-    let path = `./src/api/data/${filename}`;
+    let path = `./src/data/${filename}`;
     fs.writeFile(path, JSON.stringify(jsonContent, null, 4), function (err) {
         if (err) console.log(err);
         else console.log(`File written succesfully: ${filename}.`);
