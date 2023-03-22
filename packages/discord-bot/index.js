@@ -6,4 +6,4 @@ const { executeDeploymentSchedule } = require('./scripts/deployChildTask');
 executeDeploymentSchedule();
 
 // Stop the bot
-discordClient.login(config.testToken);
+discordClient.login(config.token);
