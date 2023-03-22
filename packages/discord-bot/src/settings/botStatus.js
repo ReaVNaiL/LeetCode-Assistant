@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const { ActivityType } = require('discord.js');
+const axios = require('axios');
 
 function SetBotStatus(client, status) {
     client.user.setPresence({
@@ -39,6 +40,17 @@ function SetCountBotStatus(client, count) {
 }
 
 /**
+ * Get the current progress count from the API
+ * @returns {Object} Count of problems left
+ */
+async function updateStatusCount() {
+    const response = await axios.get(
+        'https://leetcode-api.klenir.com/problems/daily/count'
+    );
+    return response.data.count;
+}
+
+/**
  * Create Task to update the bot status
  * @param {Client} client - The Discord client object
  * @param {Number} count - The current progress count
@@ -46,10 +58,7 @@ function SetCountBotStatus(client, count) {
  */
 function scheduleStatusUpdate(client, intervalMinutes = 5) {
     cron.schedule(`*/${intervalMinutes} * * * *`, async () => {
-        // eslint-disable-next-line global-require
-        const dailyHandler = require('../helpers/dailyProblem');
-
-        const count = await dailyHandler.requestSolvedDailyCount();
+        const count = await updateStatusCount();
 
         if (!client || !client.user) {
             return;
@@ -69,5 +78,6 @@ function scheduleStatusUpdate(client, intervalMinutes = 5) {
 module.exports = {
     SetBotStatus,
     SetCountBotStatus,
-    scheduleStatusUpdate
+    scheduleStatusUpdate,
+    updateStatusCount
 };
