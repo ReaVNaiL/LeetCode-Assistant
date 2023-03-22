@@ -4,7 +4,7 @@ const app = express();
 const settings = require('./src/config/api-settings.json');
 const PORT = process.env.PORT || settings.port;
 
-const problemRoutes = require('./src/api/routes/problems');
+const problemRoutes = require('./src/routes/problems');
 
 // Simple Logger
 let currTime = new Date().toLocaleString();
