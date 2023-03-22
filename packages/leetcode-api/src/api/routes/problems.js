@@ -9,7 +9,7 @@ const problems = require('../services/problems-req');
 
 // Get URL for given Index Problem
 router.get('/search', (req, res) => {
-    let data = {}
+    let data = {};
 
     if (req.query.index) {
         data = problems.printElement(req.query.index);
@@ -30,8 +30,8 @@ router.get('/refresh', (req, res) => {
                 Cookie:
                     session == 'enabled'
                         ? `LEETCODE_SESSION=${settings.LEETCODE_SESSION};`
-                        : ``,
-            },
+                        : ``
+            }
         })
         .then((response) => {
             res.send(response.data);
@@ -43,7 +43,9 @@ router.get('/all', (req, res) => {
     res.send(problems.arrangeProblemSets());
 });
 
-
+router.get('/daily', (req, res) => {
+    res.send(problems.getDailyProblem())
+});
 
 // Always export the router so it can be accessed in the main index.js file
 module.exports = router;
