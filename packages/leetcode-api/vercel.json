@@ -14,7 +14,7 @@
     "crons": [
         {
             "schedule": "*/1 * * * *",
-            "path": "./src/scripts/updateDaily.js"
+            "path": "/packages/leetcode-api/api/updateDaily.js"
         }
     ]
 }

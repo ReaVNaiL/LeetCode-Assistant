@@ -1,5 +1,5 @@
-const { getCurrentFormattedDate } = require('../helpers/timeHandler');
-const { skipDailyProblem } = require('../services/problems-req');
+const { getCurrentFormattedDate } = require('../src/helpers/timeHandler');
+const { skipDailyProblem } = require('../src/services/problems-req');
 
 export default function handler (req, res) {
     try {
