@@ -117,9 +117,6 @@ function InitializeClient() {
         }
     });
 
-    // Start the task to remove the problem from the list after 24 hours
-    dailyHandler.removeProblemFromList(client);
-
     // Update daily message every 24 hours
     dailyHandler.sendDailyProblemMessage(client, CHANNEL_ID);
 
