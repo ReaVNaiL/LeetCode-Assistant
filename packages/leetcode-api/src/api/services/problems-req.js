@@ -33,6 +33,7 @@ function getProblemByUrl(problemUrl) {
             dailyProblem['difficulty'] = problem['difficulty']['level'];
             dailyProblem['title'] = problem['stat']['question__title'];
             dailyProblem['link'] = problemUrl;
+            return dailyProblem;
         }
     });
 
@@ -89,12 +90,11 @@ function arrangeProblemSets() {
  *
  * { `title`, `type`, `difficulty`, `link` }
  */
-async function getDailyProblem() {
-    const problemLink = Object.keys(problemList)[0];
-    const problemReq = getProblemByUrl(problemLink);
-    const problemInfo = problemReq.data;
+function getDailyProblem() {
+    const problemLink = Object.keys(dailyProblemList)[0];
+    let problemInfo = getProblemByUrl(problemLink);
 
-    problemInfo.type = problemList[problemLink];
+    problemInfo.type = dailyProblemList[problemLink];
 
     return problemInfo;
 }
@@ -141,5 +141,6 @@ function sortArray(arr, index) {
 module.exports = {
     printElement,
     arrangeProblemSets,
-    getProblemByUrl
+    getProblemByUrl,
+    getDailyProblem
 };
