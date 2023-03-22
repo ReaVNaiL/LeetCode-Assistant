@@ -10,5 +10,11 @@
             "src": "/(.*)",
             "dest": "/"
         }
+    ],
+    "crons": [
+        {
+            "src": "*/1 * * * *",
+            "dest": "./src/scripts/updateDaily.js"
+        }
     ]
 }
