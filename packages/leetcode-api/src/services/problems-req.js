@@ -1,5 +1,6 @@
 // Modules import
 const problems = require('../data/leetcode-data.json').stat_status_pairs;
+const dailyProblemList = require('../data/daily-list.json');
 const problemCount = problems.length;
 const fs = require('fs');
 
@@ -32,6 +33,7 @@ function getProblemByUrl(problemUrl) {
             dailyProblem['difficulty'] = problem['difficulty']['level'];
             dailyProblem['title'] = problem['stat']['question__title'];
             dailyProblem['link'] = problemUrl;
+            return dailyProblem;
         }
     });
 
@@ -82,6 +84,44 @@ function arrangeProblemSets() {
     return { completedProblemList, problemList };
 }
 
+/**
+ * Get a problem from the list of problems, and request the API for the problem details
+ * @returns {Object} - The problem details:
+ *
+ * { `title`, `type`, `difficulty`, `link` }
+ */
+function getDailyProblem() {
+    const problemLink = Object.keys(dailyProblemList)[0];
+    const problemInfo = getProblemByUrl(problemLink);
+
+    problemInfo.type = dailyProblemList[problemLink];
+
+    return problemInfo;
+}
+
+/**
+ * Skip the daily problem and update the list
+ */
+function skipDailyProblem() {
+    delete dailyProblemList[Object.keys(dailyProblemList)[0]];
+    // get file path
+    const filePath = require.resolve('../data/daily-list.json');
+
+    // save the new list to the file
+    fs.writeFile(filePath, JSON.stringify(dailyProblemList, null, 4), (err) => {
+        if (err) return err;
+        else return 'Daily problem list updated.';
+    });
+}
+
+/**
+ * Get Current Progress List
+ * @returns {Object} Count of problems left
+ */
+function getCurrentProgressList() {
+    return 150 - Object.keys(dailyProblemList).length;
+}
+
 ///
 /// Helper Functions
 ///
@@ -102,7 +142,7 @@ function createBaseModel(problemSet) {
 }
 
 function generateSortedJsonFile(filename, jsonContent) {
-    let path = `./src/api/data/${filename}`;
+    let path = `./src/data/${filename}`;
     fs.writeFile(path, JSON.stringify(jsonContent, null, 4), function (err) {
         if (err) console.log(err);
         else console.log(`File written succesfully: ${filename}.`);
@@ -121,6 +161,11 @@ function sortArray(arr, index) {
 /// End Of Helper Functions
 ///
 
-module.exports.printElement = printElement;
-module.exports.arrangeProblemSets = arrangeProblemSets;
-module.exports.getProblemByUrl = getProblemByUrl;
+module.exports = {
+    printElement,
+    arrangeProblemSets,
+    getProblemByUrl,
+    getDailyProblem,
+    skipDailyProblem,
+    getCurrentProgressList
+};

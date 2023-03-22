@@ -1,13 +1,6 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
-const {
-    dailyProblemStringBuilder,
-    getDailyProblem,
-    removeProblemFromList,
-    sendDailyProblemMessage,
-    skipDailyProblem,
-    getCurrentProgressList
-} = require('./helpers/dailyProblem');
+const dailyHandler = require('./helpers/dailyProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
@@ -27,7 +20,7 @@ const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
  *  a button, a select menu, etc.
  * @returns
  */
-async function initializeBotInteractions(client, interaction) {
+async function initializeBotInteractions(interaction) {
     console.log('\n----------------------------------------');
     console.log(`Request received from ${interaction.user.tag}!`);
     console.log(
@@ -42,8 +35,8 @@ async function initializeBotInteractions(client, interaction) {
     const { commandName, options } = interaction;
 
     if (commandName === 'get-my-daily') {
-        const daily = await getDailyProblem();
-        await dailyProblemStringBuilder(
+        const daily = await dailyHandler.requestProblemInfo();
+        await dailyHandler.dailyProblemStringBuilder(
             interaction,
             daily.title,
             daily.type,
@@ -55,8 +48,8 @@ async function initializeBotInteractions(client, interaction) {
     if (commandName === 'skip-daily') {
         const passcode = options.getString('passcode');
         if (passcode === '4444') {
-            skipDailyProblem(client);
-            await interaction.reply('Daily problem skipped!');
+            const dailyResponse = await dailyHandler.requestSkipDailyProblem();
+            await interaction.reply(dailyResponse.data);
         } else {
             await interaction.reply('Incorrect passcode!');
         }
@@ -99,13 +92,13 @@ function InitializeClient() {
         ]
     });
 
-    client.on('ready', () => {
+    client.on('ready', async () => {
         console.log(
             `[${getCurrentFormattedDate()}] Logged in as ${client.user.tag}!`
         );
 
         // Set the bot status
-        SetCountBotStatus(client, 0);
+        SetCountBotStatus(client, dailyHandler.requestSolvedDailyCount());
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
@@ -114,7 +107,7 @@ function InitializeClient() {
     // Initialize the bot interactions
     client.on('interactionCreate', async (interaction) => {
         try {
-            await initializeBotInteractions(client, interaction);
+            await initializeBotInteractions(interaction);
         } catch (error) {
             console.error(error);
             await interaction.reply({
@@ -125,13 +118,13 @@ function InitializeClient() {
     });
 
     // Start the task to remove the problem from the list after 24 hours
-    removeProblemFromList(client);
+    dailyHandler.removeProblemFromList(client);
 
     // Update daily message every 24 hours
-    sendDailyProblemMessage(client, CHANNEL_ID);
+    dailyHandler.sendDailyProblemMessage(client, CHANNEL_ID);
 
-    // Update the bot status every 5 minutes
-    scheduleStatusUpdate(client, getCurrentProgressList(), 1);
+    // Update the bot status every 1 minutes
+    scheduleStatusUpdate(client, 1);
 
     return client;
 }

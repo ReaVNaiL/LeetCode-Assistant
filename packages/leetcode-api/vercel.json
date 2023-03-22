@@ -10,5 +10,11 @@
             "src": "/(.*)",
             "dest": "/"
         }
+    ],
+    "crons": [
+        {
+            "schedule": "50 9 * * *",
+            "path": "/packages/leetcode-api/api/updateDaily.js"
+        }
     ]
 }
