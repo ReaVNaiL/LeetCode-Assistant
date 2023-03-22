@@ -1,20 +1,10 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const cron = require('node-cron');
-const fs = require('fs');
-const problemList = require('../data/daily-list.json');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const { SetCountBotStatus } = require('../settings/botStatus');
 
 const CRON_SCHEDULE = '* 19 * * *'; // 7:00 PM
-
-/**
- * Get Current Progress List
- * @returns {Object} Count of problems left
- */
-function getCurrentProgressList() {
-    return 150 - Object.keys(problemList).length;
-}
 
 /**
  * This function is used to build the string for the daily problem
@@ -40,7 +30,7 @@ async function dailyProblemStringBuilder(
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
-    `;
+`;
     if (!inChannel) {
         await interaction.reply({
             content: output,
@@ -50,8 +40,17 @@ async function dailyProblemStringBuilder(
     return output;
 }
 
-// `"''"`
-// ([{}])
+/**
+ * Get Current Progress List
+ * @returns {Object} Count of problems left
+ */
+async function requestSolvedDailyCount() {
+    const response = await axios.get(
+        'https://leetcode-api.klenir.com/problems/daily'
+    );
+
+    return response.data;
+}
 
 /**
  * Send the request to the API to get the problem details
@@ -63,36 +62,32 @@ async function requestProblemInfo() {
         'https://leetcode-api.klenir.com/problems/daily'
     );
 
-    return problemInfo.data;
+    return problemInfo;
 }
 
-/**
- * Skip the daily problem and update the list
- */
-function skipDailyProblem(client) {
-    delete problemList[Object.keys(problemList)[0]];
-    // get file path
-    const filePath = require.resolve('../data/daily-list.json');
-
-    // save the new list to the file
-    fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
-        if (err) console.log(err);
-        else {
-            console.log(
-                `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
-            );
-        }
-    });
-
-    SetCountBotStatus(client, getCurrentProgressList());
+async function requestSkipDailyProblem() {
+    return axios.post('https://leetcode-api.klenir.com/problems/daily/skip');
 }
 
 /**
  * Start the task to remove the problem from the list after 24 hours
  */
 function removeProblemFromList(client) {
-    cron.schedule(CRON_SCHEDULE, () => {
-        skipDailyProblem(client);
+    cron.schedule(CRON_SCHEDULE, async () => {
+        const response = await requestSkipDailyProblem(client);
+
+        if (response.status === 200) {
+            console.log(
+                `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
+            );
+        } else {
+            console.log(
+                `[${getCurrentFormattedDate()}] Daily Problem Update Failed\n
+                ${response.data}`
+            );
+        }
+
+        SetCountBotStatus(client, requestSolvedDailyCount());
     });
 }
 
@@ -131,6 +126,6 @@ module.exports = {
     requestProblemInfo,
     removeProblemFromList,
     sendDailyProblemMessage,
-    getCurrentProgressList,
-    skipDailyProblem
+    requestSolvedDailyCount,
+    requestSkipDailyProblem
 };
