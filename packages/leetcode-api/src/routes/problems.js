@@ -1,5 +1,5 @@
 // Import Modules
-const settings = require('../../config/api-settings.json');
+const settings = require('../config/api-settings.json');
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
@@ -35,7 +35,6 @@ router.get('/refresh', (req, res) => {
         })
         .then((response) => {
             res.send(response.data);
-            console.log(response.data);
         });
 });
 
