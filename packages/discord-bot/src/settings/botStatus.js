@@ -35,7 +35,7 @@ function SetCountBotStatus(client, count) {
                 }
             }
         ],
-        status: 'dnd'
+        status: 'online'
     });
 }
 
