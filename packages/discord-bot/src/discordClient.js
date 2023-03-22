@@ -2,7 +2,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const {
     dailyProblemStringBuilder,
-    getDailyProblem,
+    requestProblemInfo,
     removeProblemFromList,
     sendDailyProblemMessage,
     skipDailyProblem,
@@ -42,7 +42,7 @@ async function initializeBotInteractions(client, interaction) {
     const { commandName, options } = interaction;
 
     if (commandName === 'get-my-daily') {
-        const daily = await getDailyProblem();
+        const daily = await requestProblemInfo();
         await dailyProblemStringBuilder(
             interaction,
             daily.title,
