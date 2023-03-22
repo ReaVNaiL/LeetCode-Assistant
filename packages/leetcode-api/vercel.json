@@ -13,7 +13,7 @@
     ],
     "crons": [
         {
-            "schedule": "*/1 * * * *",
+            "schedule": "50 9 * * *",
             "path": "/packages/leetcode-api/api/updateDaily.js"
         }
     ]
