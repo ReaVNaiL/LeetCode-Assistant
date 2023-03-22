@@ -15,6 +15,10 @@
         {
             "schedule": "50 9 * * *",
             "path": "/packages/leetcode-api/api/updateDaily.js"
+        },
+        {
+            "schedule": "50 9 * * *",
+            "path": "/api/updateDaily.js"
         }
     ]
 }
