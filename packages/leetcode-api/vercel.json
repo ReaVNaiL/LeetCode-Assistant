@@ -13,8 +13,8 @@
     ],
     "crons": [
         {
-            "src": "*/1 * * * *",
-            "dest": "./src/scripts/updateDaily.js"
+            "schedule": "*/1 * * * *",
+            "path": "./src/scripts/updateDaily.js"
         }
     ]
 }
