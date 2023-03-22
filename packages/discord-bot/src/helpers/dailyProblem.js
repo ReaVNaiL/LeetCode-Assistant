@@ -2,9 +2,8 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
-const { SetCountBotStatus } = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '* 19 * * *'; // 7:00 PM
+const CRON_SCHEDULE = '*/1 * * * *'; // 7:00 PM
 
 /**
  * This function is used to build the string for the daily problem
@@ -25,8 +24,8 @@ async function dailyProblemStringBuilder(
     inChannel = false
 ) {
     const output = `
-:wave: ${isEveryOne ? '@everyone' : ''} Here is the daily problem for today!
-**:small_blue_diamond: :eyes: ${problemTitle}** :eyes:
+:wave: ${isEveryOne ? '@here' : ''} Here is the daily problem for today!
+:eyes: ${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
@@ -34,7 +33,7 @@ async function dailyProblemStringBuilder(
     if (!inChannel) {
         await interaction.reply({
             content: output,
-            allowedMentions: { parse: ['everyone'] }
+            allowedMentions: { parse: ['here'] }
         });
     }
     return output;
@@ -46,10 +45,9 @@ async function dailyProblemStringBuilder(
  */
 async function requestSolvedDailyCount() {
     const response = await axios.get(
-        'https://leetcode-api.klenir.com/problems/daily'
+        'https://leetcode-api.klenir.com/problems/daily/count'
     );
-
-    return response.data;
+    return response.data.count;
 }
 
 /**
@@ -62,7 +60,7 @@ async function requestProblemInfo() {
         'https://leetcode-api.klenir.com/problems/daily'
     );
 
-    return problemInfo;
+    return problemInfo.data;
 }
 
 async function requestSkipDailyProblem() {
@@ -72,7 +70,7 @@ async function requestSkipDailyProblem() {
 /**
  * Start the task to remove the problem from the list after 24 hours
  */
-function removeProblemFromList(client) {
+function removeProblemFromList() {
     cron.schedule(CRON_SCHEDULE, async () => {
         const response = await requestSkipDailyProblem();
 
@@ -86,8 +84,6 @@ function removeProblemFromList(client) {
                 ${response.data}`
             );
         }
-
-        SetCountBotStatus(client, requestSolvedDailyCount());
     });
 }
 
