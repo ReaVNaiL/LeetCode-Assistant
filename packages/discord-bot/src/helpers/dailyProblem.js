@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '*/5 * * * *'; // 11:00 AM
+const CRON_SCHEDULE = '*/2 * * * *'; // 11:00 AM
 
 /**
  * This function is used to build the string for the daily problem
@@ -25,7 +25,7 @@ async function dailyProblemStringBuilder(
 ) {
     const output = `
 :wave: ${isEveryOne ? '@here' : ''} Here is the daily problem for today!
-:eyes: ${problemTitle}** :eyes:
+:eyes: **${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
