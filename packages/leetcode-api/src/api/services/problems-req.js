@@ -92,7 +92,7 @@ function arrangeProblemSets() {
  */
 function getDailyProblem() {
     const problemLink = Object.keys(dailyProblemList)[0];
-    let problemInfo = getProblemByUrl(problemLink);
+    const problemInfo = getProblemByUrl(problemLink);
 
     problemInfo.type = dailyProblemList[problemLink];
 
@@ -103,12 +103,12 @@ function getDailyProblem() {
  * Skip the daily problem and update the list
  */
 function skipDailyProblem() {
-    delete problemList[Object.keys(problemList)[0]];
+    delete dailyProblemList[Object.keys(dailyProblemList)[0]];
     // get file path
     const filePath = require.resolve('../data/daily-list.json');
 
     // save the new list to the file
-    fs.writeFile(filePath, JSON.stringify(problemList, null, 4), (err) => {
+    fs.writeFile(filePath, JSON.stringify(dailyProblemList, null, 4), (err) => {
         if (err) return err;
         else return 'Daily problem list updated.';
     });
@@ -119,7 +119,7 @@ function skipDailyProblem() {
  * @returns {Object} Count of problems left
  */
 function getCurrentProgressList() {
-    return 150 - Object.keys(problemList).length;
+    return 150 - Object.keys(dailyProblemList).length;
 }
 
 ///
