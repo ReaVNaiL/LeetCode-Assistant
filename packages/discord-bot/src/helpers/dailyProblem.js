@@ -74,7 +74,7 @@ async function requestSkipDailyProblem() {
  */
 function removeProblemFromList(client) {
     cron.schedule(CRON_SCHEDULE, async () => {
-        const response = await requestSkipDailyProblem(client);
+        const response = await requestSkipDailyProblem();
 
         if (response.status === 200) {
             console.log(
