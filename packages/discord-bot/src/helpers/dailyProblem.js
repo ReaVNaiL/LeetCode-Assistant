@@ -68,26 +68,6 @@ async function requestSkipDailyProblem() {
 }
 
 /**
- * Start the task to remove the problem from the list after 24 hours
- */
-function removeProblemFromList() {
-    cron.schedule(CRON_SCHEDULE, async () => {
-        const response = await requestSkipDailyProblem();
-
-        if (response.status === 200) {
-            console.log(
-                `[${getCurrentFormattedDate()}] Daily Problem Updated Succesfully`
-            );
-        } else {
-            console.log(
-                `[${getCurrentFormattedDate()}] Daily Problem Update Failed\n
-                ${response.data}`
-            );
-        }
-    });
-}
-
-/**
  * Send the daily problem message to the channel every day at 12:00 PM
  * @param {Object} client - The Discord client
  * @param {String} CHANNEL_ID - The channel ID
@@ -120,7 +100,6 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
 module.exports = {
     dailyProblemStringBuilder,
     requestProblemInfo,
-    removeProblemFromList,
     sendDailyProblemMessage,
     requestSolvedDailyCount,
     requestSkipDailyProblem
