@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
+const CRON_SCHEDULE = '30 11 * * *'; // 11:00 AM
 
 /**
  * This function is used to build the string for the daily problem
@@ -31,10 +31,7 @@ async function dailyProblemStringBuilder(
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
 `;
     if (!inChannel) {
-        await interaction.reply({
-            content: output,
-            allowedMentions: { parse: ['here'] }
-        });
+        await interaction.reply(output);
     }
     return output;
 }
