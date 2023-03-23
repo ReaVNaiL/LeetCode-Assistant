@@ -44,8 +44,11 @@ async function initializeBotInteractions(interaction) {
     if (commandName === 'skip-daily') {
         const passcode = options.getString('passcode');
         if (passcode === '4444') {
-            const dailyResponse = await dailyHandler.requestSkipDailyProblem();
-            await interaction.reply(dailyResponse.data);
+            // const dailyResponse = await dailyHandler.requestSkipDailyProblem();
+            // await interaction.reply(dailyResponse.data);
+            await interaction.reply(
+                'You are not authorized to use this command!'
+            );
         } else {
             await interaction.reply('Incorrect passcode!');
         }
@@ -93,10 +96,8 @@ function InitializeClient() {
             `[${getCurrentFormattedDate()}] Logged in as ${client.user.tag}!`
         );
 
-        const initCount = await statusHandler.updateStatusCount();
-
         // Set the bot status
-        statusHandler.SetCountBotStatus(client, initCount);
+        await statusHandler.updateStatusCount(client);
 
         // Set the bot commands for all guilds
         SetBotCommands(client);
@@ -117,9 +118,6 @@ function InitializeClient() {
 
     // Update daily message every 24 hours
     dailyHandler.sendDailyProblemMessage(client, CHANNEL_ID);
-
-    // Update the bot status every 1 minutes
-    statusHandler.scheduleStatusUpdate(client, 1);
 
     return client;
 }
