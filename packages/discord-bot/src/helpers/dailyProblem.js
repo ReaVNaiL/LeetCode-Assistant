@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
+const CRON_SCHEDULE = '0 12 * * *'; // 12:00 PM
 
 /**
  * This function is used to build the string for the daily problem
@@ -25,16 +25,13 @@ async function dailyProblemStringBuilder(
 ) {
     const output = `
 :wave: ${isEveryOne ? '@here' : ''} Here is the daily problem for today!
-:eyes: ${problemTitle}** :eyes:
+:eyes: **${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
 `;
     if (!inChannel) {
-        await interaction.reply({
-            content: output,
-            allowedMentions: { parse: ['here'] }
-        });
+        await interaction.reply(output);
     }
     return output;
 }
@@ -46,7 +43,7 @@ async function dailyProblemStringBuilder(
  */
 async function requestProblemInfo() {
     const problemInfo = await axios.get(
-        'https://leetcode-api.klenir.com/problems/daily'
+        'https://leetcode-api.klenir.com/daily'
     );
 
     return problemInfo.data;
