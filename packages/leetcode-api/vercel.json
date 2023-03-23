@@ -10,11 +10,5 @@
             "src": "/(.*)",
             "dest": "/"
         }
-    ],
-    "crons": [
-        {
-            "schedule": "0 11 * * *",
-            "path": "/jobs/daily"
-        }
     ]
 }
