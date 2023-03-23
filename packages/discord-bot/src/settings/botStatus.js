@@ -1,4 +1,3 @@
-const cron = require('node-cron');
 const { ActivityType } = require('discord.js');
 const axios = require('axios');
 
