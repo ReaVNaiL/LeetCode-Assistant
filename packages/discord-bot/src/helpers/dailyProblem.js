@@ -43,7 +43,7 @@ async function dailyProblemStringBuilder(
  */
 async function requestProblemInfo() {
     const problemInfo = await axios.get(
-        'https://leetcode-api.klenir.com/problems/daily'
+        'https://leetcode-api.klenir.com/daily'
     );
 
     return problemInfo.data;
