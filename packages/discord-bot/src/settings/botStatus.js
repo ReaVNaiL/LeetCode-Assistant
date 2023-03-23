@@ -40,44 +40,21 @@ function SetCountBotStatus(client, count) {
 }
 
 /**
- * Get the current progress count from the API
- * @returns {Object} Count of problems left
+ * Update the bot status count
+ * @returns {Object} Count of problems  solved
  */
-async function updateStatusCount() {
+async function updateStatusCount(client) {
     const response = await axios.get(
-        'https://leetcode-api.klenir.com/problems/daily/count'
+        'https://leetcode-api.klenir.com/daily/count'
     );
-    return response.data.count;
-}
 
-/**
- * Create Task to update the bot status
- * @param {Client} client - The Discord client object
- * @param {Number} count - The current progress count
- * @param {Number} intervalMinutes - The interval in minutes to update the status
- */
-function scheduleStatusUpdate(client, intervalMinutes = 5) {
-    cron.schedule(`*/${intervalMinutes} * * * *`, async () => {
-        const count = await updateStatusCount();
+    SetCountBotStatus(client, response.data.count);
 
-        if (!client || !client.user) {
-            return;
-        }
-
-        // Get current status
-        const currentStatus = client.user.presence.activities[0].state;
-
-        if (currentStatus === count) {
-            return;
-        }
-
-        SetCountBotStatus(client, count);
-    });
+    return response.data;
 }
 
 module.exports = {
     SetBotStatus,
     SetCountBotStatus,
-    scheduleStatusUpdate,
     updateStatusCount
 };
