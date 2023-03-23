@@ -6,6 +6,7 @@ const PORT = process.env.PORT || settings.port;
 
 const problemRoutes = require('./src/routes/problems');
 const jobRoutes = require('./src/routes/jobs');
+const dailyRoutes = require('./src/routes/daily');
 
 // Simple Logger
 let currTime = new Date().toLocaleString();
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
 
 // Routes Configuration
 app.use('/problems', problemRoutes);
-app.use('/jobs', jobRoutes);
+app.use('/daily', dailyRoutes);
 
 // Create a home route
 app.get('/', (req, res) => {
