@@ -18,12 +18,13 @@ function printElement(index) {
     return 'Problem not found, please try a different index.';
 }
 
-function getProblemByUrl(problemUrl) {
+function getProblemByUrl(problemUrl, type) {
     const linkSlug = problemUrl.split('/')[4];
     let dailyProblem = {
+        title: '',
+        type: type,
         difficulty: 0,
-        link: '',
-        title: ''
+        link: problemUrl
     };
 
     // Note: This is a synchronous function, but it's okay because it's only called once.
@@ -32,7 +33,6 @@ function getProblemByUrl(problemUrl) {
         if (problemSlug === linkSlug) {
             dailyProblem['difficulty'] = problem['difficulty']['level'];
             dailyProblem['title'] = problem['stat']['question__title'];
-            dailyProblem['link'] = problemUrl;
             return dailyProblem;
         }
     });
@@ -164,8 +164,5 @@ function sortArray(arr, index) {
 module.exports = {
     printElement,
     arrangeProblemSets,
-    getProblemByUrl,
-    getDailyProblem,
-    skipDailyProblem,
-    getCurrentProgressList
+    getProblemByUrl
 };
