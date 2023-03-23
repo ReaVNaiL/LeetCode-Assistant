@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 
-const CRON_SCHEDULE = '*/2 * * * *'; // 11:00 AM
+const CRON_SCHEDULE = '0 12 * * *'; // 12:00 PM
 
 /**
  * This function is used to build the string for the daily problem
