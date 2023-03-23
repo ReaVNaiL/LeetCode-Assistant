@@ -76,5 +76,3 @@ Discord Bot that will assign leetcode problems daily.
     ```bash
     lerna bootstrap
     ```
-
-3. 

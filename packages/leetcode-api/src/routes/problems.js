@@ -42,18 +42,5 @@ router.get('/all', (req, res) => {
     res.send(problems.arrangeProblemSets());
 });
 
-router.get('/daily', (req, res) => {
-    res.send(problems.getDailyProblem());
-});
-
-router.post('/daily/skip', (req, res) => {
-    res.send(problems.skipDailyProblem());
-});
-
-router.get('/daily/count', (req, res) => {
-    const count = problems.getCurrentProgressList();
-    res.send({ count });
-});
-
 // Always export the router so it can be accessed in the main index.js file
 module.exports = router;
