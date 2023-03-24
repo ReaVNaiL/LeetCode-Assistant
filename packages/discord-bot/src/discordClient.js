@@ -16,7 +16,7 @@ const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
  *  a button, a select menu, etc.
  * @returns
  */
-async function initializeBotInteractions(interaction) {
+async function initializeBotInteractions(client, interaction) {
     console.log('\n----------------------------------------');
     console.log(`Request received from ${interaction.user.tag}!`);
     console.log(
@@ -31,7 +31,7 @@ async function initializeBotInteractions(interaction) {
     const { commandName, options } = interaction;
 
     if (commandName === 'get-my-daily') {
-        const daily = await dailyHandler.requestProblemInfo();
+        const daily = await dailyHandler.requestProblemInfo(client);
         await dailyHandler.dailyProblemStringBuilder(
             interaction,
             daily.title,
@@ -106,7 +106,7 @@ function InitializeClient() {
     // Initialize the bot interactions
     client.on('interactionCreate', async (interaction) => {
         try {
-            await initializeBotInteractions(interaction);
+            await initializeBotInteractions(client, interaction);
         } catch (error) {
             console.error(error);
             await interaction.reply({
