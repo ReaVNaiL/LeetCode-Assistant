@@ -2,6 +2,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
+const status = require('../settings/botStatus');
 
 const CRON_SCHEDULE = '0 12 * * *'; // 12:00 PM
 
@@ -41,10 +42,13 @@ async function dailyProblemStringBuilder(
  * @param {String} problemLink - The link to the problem
  * @returns {Object} - The problem details
  */
-async function requestProblemInfo() {
+async function requestProblemInfo(client = null) {
     const problemInfo = await axios.get(
         'https://leetcode-api.klenir.com/daily'
     );
+
+    // Set the bot status optionally
+    if (client) await status.setBotStatus(client);
 
     return problemInfo.data;
 }
@@ -63,7 +67,7 @@ function sendDailyProblemMessage(client, CHANNEL_ID) {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {
-            const daily = await requestProblemInfo();
+            const daily = await requestProblemInfo(client);
             const output = await dailyProblemStringBuilder(
                 channel,
                 daily.title,

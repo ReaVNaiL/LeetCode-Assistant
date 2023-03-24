@@ -20,11 +20,9 @@ jobs:
               with:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.ref }}
-                  
-            - name: Use Node.js 14.x
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 14.x
+
+            - name: Clean Cache
+              run: npm install -g npm
 
             - name: Install Lerna
               run: npm install -g lerna
