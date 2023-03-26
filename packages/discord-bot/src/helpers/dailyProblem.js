@@ -4,7 +4,7 @@ const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const status = require('../settings/botStatus');
 
-const CRON_SCHEDULE = '0 14 * * *'; // 2:00 PM
+const CRON_SCHEDULE = '10 12 * * *'; // 2:00 PM
 
 /**
  * This function is used to build the string for the daily problem
