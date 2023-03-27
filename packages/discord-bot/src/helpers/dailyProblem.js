@@ -3,6 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const status = require('../settings/botStatus');
+const emojis = require('../data/emojis.json');
 
 const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
 
@@ -34,6 +35,8 @@ async function dailyProblemStringBuilder(
     if (!inChannel) {
         await interaction.reply(output);
     }
+    // Add the checkmark reaction to the reply
+    await interaction.react(emojis.checkmark);
     return output;
 }
 
