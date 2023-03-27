@@ -6,7 +6,7 @@
     "https://leetcode.com/problems/top-k-frequent-elements/": "Arrays & Hashing",
     "https://leetcode.com/problems/product-of-array-except-self/": "Arrays & Hashing",
     "https://leetcode.com/problems/valid-sudoku/": "Arrays & Hashing",
-    "https://leetcode.com/problems/encode-and-decode-strings/": "Arrays & Hashing",
+    "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/": "Arrays & Hashing",
     "https://leetcode.com/problems/longest-consecutive-sequence/": "Arrays & Hashing",
     "https://leetcode.com/problems/valid-palindrome/": "Two Pointers",
     "https://leetcode.com/problems/container-with-most-water/": "Two Pointers",
@@ -148,5 +148,8 @@
     "https://leetcode.com/problems/reverse-bits/": "Bit Manipulation",
     "https://leetcode.com/problems/missing-number/": "Bit Manipulation",
     "https://leetcode.com/problems/sum-of-two-integers/": "Bit Manipulation",
-    "https://leetcode.com/problems/reverse-integer/": "Bit Manipulation"
+    "https://leetcode.com/problems/reverse-integer/": "Bit Manipulation",
+    "premium": {
+        "https://leetcode.com/problems/encode-and-decode-strings/": "Arrays & Hashing"
+    }
 }
