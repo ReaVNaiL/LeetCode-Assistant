@@ -1,7 +1,4 @@
 {
-    "checkmark": ":white_check_mark:",
-    "cross": ":x:",
-    "info": ":information_source:",
-    "warning": ":warning:",
-    "error": ":no_entry:"
+    "checkmark": "✅",
+    "cross": "❌"
 }

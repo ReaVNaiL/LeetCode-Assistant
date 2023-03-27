@@ -5,7 +5,6 @@ const statusHandler = require('./settings/botStatus');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
-const emojis = require('./data/emojis.json');
 
 /* GLOBALS */
 const CHANNEL_ID = '1084131482123112559'; // #daily-leetcode channel
@@ -40,8 +39,6 @@ async function initializeBotInteractions(client, interaction) {
             daily.difficulty,
             daily.link
         );
-        // Add the checkmark reaction to the reply
-        await interaction.react(emojis.checkmark);
     }
 
     if (commandName === 'skip-daily') {
