@@ -34,9 +34,9 @@ async function dailyProblemStringBuilder(
 `;
     if (!inChannel) {
         await interaction.reply(output);
+        // Add the checkmark reaction to the reply
+        await interaction.react(emojis.checkmark);
     }
-    // Add the checkmark reaction to the reply
-    await interaction.react(emojis.checkmark);
     return output;
 }
 
