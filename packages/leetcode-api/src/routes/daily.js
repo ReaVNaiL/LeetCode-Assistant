@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const axios = require('axios');
 
 const dailyIndexer = require('../services/daily-indexer');
 
@@ -19,6 +20,10 @@ router.get('/count', (req, res) => {
 router.get('/link', (req, res) => {
     const link = dailyIndexer.getDailyProblemLink();
     res.send({ link });
+});
+router.get('/bonus', (req, res) => {
+    const bonus = dailyIndexer.getBonusProblem();
+    res.send(bonus);
 });
 
 
