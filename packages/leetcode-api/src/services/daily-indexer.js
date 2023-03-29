@@ -51,9 +51,32 @@ function getCurrentProgressList() {
     return getProblemIndex(today, START_DATE);
 }
 
+function getBonusProblem() {
+    // Getting the bonus problem from leetcode.com
+    const body = {
+        query: '{ activeDailyCodingChallengeQuestion { link } }'
+    };
+
+    axios.post('http://leetcode.com/graphql', body).then((response) => {
+        if (response.status === 200) {
+            // get the link from the response
+            const link =
+                response.data.data.activeDailyCodingChallengeQuestion.link;
+
+            return problemReq.getProblemByUrl(link, "???");
+        }
+
+        // if the response is not successful
+        else {
+            return { link: 'Error' };
+        }
+    });
+}
+
 module.exports = {
     getDailyProblemType,
     getDailyProblemLink,
     getDailyProblem,
-    getCurrentProgressList
+    getCurrentProgressList,
+    getBonusProblem
 };
