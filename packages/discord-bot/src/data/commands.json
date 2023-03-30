@@ -36,8 +36,8 @@
         "description": "Get help for the bot!"
     },
     {
-        "name": "get-my-problem",
-        "description": "Get a specific problem!"
+        "name": "get-bonus-problem",
+        "description": "Up for a challenge? I don't think so!"
     },
     {
         "name": "show-solution",
