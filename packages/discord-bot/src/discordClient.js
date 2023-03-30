@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const { Client, GatewayIntentBits } = require('discord.js');
 const dailyHandler = require('./helpers/dailyProblem');
-const statusHandler = require('./settings/botStatus');
 const bonusHandler = require('./helpers/bonusProblem');
+const statusHandler = require('./settings/botStatus');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
@@ -63,7 +63,7 @@ async function initializeBotInteractions(client, interaction) {
 
     if (commandName === 'get-bonus-problem') {
         const bonusProblem = await bonusHandler.requestBonusProblem();
-        await bonusProblem.bonusProblemStringBuilder(
+        await bonusHandler.bonusProblemStringBuilder(
             interaction,
             bonusProblem.title,
             bonusProblem.type,
