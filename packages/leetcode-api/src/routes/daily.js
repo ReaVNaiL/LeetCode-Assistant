@@ -21,5 +21,10 @@ router.get('/link', (req, res) => {
     res.send({ link });
 });
 
+router.get('/bonus', async (req, res) => {
+    const bonus = await dailyIndexer.getBonusProblem();
+    res.send({bonus});
+});
+
 
 module.exports = router;
