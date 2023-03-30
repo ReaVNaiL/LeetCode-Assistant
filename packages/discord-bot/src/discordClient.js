@@ -2,6 +2,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const dailyHandler = require('./helpers/dailyProblem');
 const statusHandler = require('./settings/botStatus');
+const bonusHandler = require('./helpers/bonusProblem');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
@@ -60,11 +61,21 @@ async function initializeBotInteractions(client, interaction) {
         await interaction.reply(`Here are the problems for ${company}!`);
     }
 
+    if (commandName === 'get-bonus-problem') {
+        const bonusProblem = await bonusHandler.requestBonusProblem();
+        await bonusProblem.bonusProblemStringBuilder(
+            interaction,
+            bonusProblem.title,
+            bonusProblem.type,
+            bonusProblem.difficulty,
+            bonusProblem.link,
+            true
+        );
+    }
+
     if (commandName === 'leaderboard') {
         await interaction.reply('*NOT IMPLEMENTED*');
     } else if (commandName === 'help') {
-        await interaction.reply('*NOT IMPLEMENTED*');
-    } else if (commandName === 'get-my-problem') {
         await interaction.reply('*NOT IMPLEMENTED*');
     } else if (commandName === 'show-solution') {
         await interaction.reply('*NOT IMPLEMENTED*');
