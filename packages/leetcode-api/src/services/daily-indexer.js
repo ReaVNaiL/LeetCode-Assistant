@@ -1,5 +1,6 @@
 const problems = require('../data/daily-list.json');
 const problemReq = require('./problems-req');
+const axios = require('axios');
 
 // Global variables
 const START_DATE = new Date('2023-03-20'); // Possibly change this to the date of the first problem
@@ -51,9 +52,28 @@ function getCurrentProgressList() {
     return getProblemIndex(today, START_DATE);
 }
 
+async function getBonusProblem() {
+    // Getting the bonus problem from leetcode.com
+    const body = {
+        query: '{ activeDailyCodingChallengeQuestion { link } }'
+    };
+
+    const response = await axios.post('https://leetcode.com/graphql', body);
+
+    if (response.status === 200) {
+        // get the link from the response
+        const link = response.data.data.activeDailyCodingChallengeQuestion.link;
+
+        return problemReq.getProblemByUrl(`https://leetcode.com${link}`, '???');
+    }
+
+    return { link: 'Error' };
+}
+
 module.exports = {
     getDailyProblemType,
     getDailyProblemLink,
     getDailyProblem,
-    getCurrentProgressList
+    getCurrentProgressList,
+    getBonusProblem
 };
