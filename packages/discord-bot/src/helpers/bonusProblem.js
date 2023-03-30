@@ -11,7 +11,7 @@ async function bonusProblemStringBuilder(
     inChannel = false
 ) {
     const output = `
-:wave: ${isEveryOne ? '@here' : ''} Listen closely, for I have a tale to tell.
+:wave: ${isEveryOne ? '@everyone' : ''} Listen closely, for I have a tale to tell.\n
 :eyes: **${problemTitle}** :eyes:
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
@@ -22,7 +22,7 @@ async function bonusProblemStringBuilder(
     if (!inChannel) {
         await interaction.reply({
             content: output,
-            allowed_mentions: { parse: ['here'] }
+            allowed_mentions: { parse: ['everyone'] }
         }); // Add the checkmark reaction to the reply
         await interaction.react(emojis.checkmark);
     }
