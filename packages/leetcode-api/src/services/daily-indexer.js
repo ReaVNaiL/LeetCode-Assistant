@@ -3,7 +3,7 @@ const problemReq = require('./problems-req');
 const axios = require('axios');
 
 // Global variables
-const START_DATE = new Date('2023-03-21'); // Possibly change this to the date of the first problem
+const START_DATE = new Date('2023-03-20'); // Possibly change this to the date of the first problem
 const TOTAL_PROBLEMS = 150;
 
 /// HELPERS
