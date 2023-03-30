@@ -20,8 +20,10 @@ async function bonusProblemStringBuilder(
 :skull_crossbones: Will you dare to solve it, or will you be consumed by the horrors that lie within?
     `;
     if (!inChannel) {
-        await interaction.reply(output);
-        // Add the checkmark reaction to the reply
+        await interaction.reply({
+            content: output,
+            allowed_mentions: { parse: ['here'] }
+        }); // Add the checkmark reaction to the reply
         await interaction.react(emojis.checkmark);
     }
     return output;
