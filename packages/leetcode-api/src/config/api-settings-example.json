@@ -1,0 +1,9 @@
+{
+    "api": "1.0",
+    "csrftoken": "DO NOT REPLACE THIS",
+    "__stripe_mid": "__stripe_mid",
+    "LEETCODE_SESSION": "token_here",
+    "username": "user_here",
+    "port": "50520",
+    "leetcode_api": "https://leetcode.com/problemset/all/"
+}
