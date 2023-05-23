@@ -78,10 +78,22 @@ The bot's code is divided into two main packages: `discord-bot` and `leetcodeapi
 
 This package contains the code for the Discord bot itself. It uses axios for making HTTP requests, discord.js for interacting with Discord, dotenv for managing environment variables, node-cron for scheduling tasks, and pm2 for managing the application process.
 
+> :warning: **Note**: The bot is using a date system to keep track of daily problems. At the time, this is hard coded, eventually I will allow users to set their own problem list, so they can start from the beginning of the list.
+
+Snapshot of the bot in action:
+- Assigning a daily problem:
+
+- Generating a random problem:
+
 
 ### LeetCode-Api
 
 This package contains the code for the LeetCode problem generation API. It uses axios for making HTTP requests, express for managing the server, express-winston for logging, and webpack for bundling the application.
+
+> See [API Endpoints](packages/leetcode-api/README.md) for more information on the API.
+
+> :notebook: **Note**: The API is hosted on Vercel. If you wish to host the API yourself, you will need to create a Vercel account and deploy the API to Vercel.
+> Click [here](https://vercel.com/docs) for more information on how to deploy to Vercel.
 
 ## Usage
 
