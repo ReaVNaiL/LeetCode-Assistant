@@ -1,4 +1,4 @@
-const config = require('./config/bot-credentials.json');
+require('dotenv').config();
 const { discordClient } = require('./src/discordClient');
 const { executeDeploymentSchedule } = require('./scripts/deployChildTask');
 
@@ -6,4 +6,4 @@ const { executeDeploymentSchedule } = require('./scripts/deployChildTask');
 executeDeploymentSchedule();
 
 // Stop the bot
-discordClient.login(config.token);
+discordClient.login(process.env.TOKEN);
