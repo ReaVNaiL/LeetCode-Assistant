@@ -1,5 +1,5 @@
 // Import Modules
-const settings = require('../config/api-settings.json');
+const settings = require('../config/api-settings-example.json');
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
