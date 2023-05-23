@@ -82,8 +82,14 @@ This package contains the code for the Discord bot itself. It uses axios for mak
 
 Snapshot of the bot in action:
 - Assigning a daily problem:
+<p>
+    <img width=435 height=325 src="https://github.com/ReaVNaiL/LeetCode-Assistant/assets/59776018/7839bbed-9574-4e37-a494-4f39c596f850"/>
+</p>
 
-- Generating a random problem:
+- Example Bot Offline:
+<p>
+    <img width=435 height=325 src="https://github.com/ReaVNaiL/LeetCode-Assistant/assets/59776018/e3cf5b5c-3585-4d1b-8e47-a12a7c1ea948"/>
+</p>
 
 
 ### LeetCode-Api
