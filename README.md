@@ -1,78 +1,99 @@
-# LeetCode-Generator-Discord-Bot
-Discord Bot that will assign leetcode problems daily.
+# LeetCode Assistant
+
 <p>
     <img width=435 height=325 src="https://user-images.githubusercontent.com/59776018/226667773-83eead6e-054c-4ac0-9137-b82ead5b8980.png"/>
 </p>
 
-1. Discord Bot that will assign leetcode problems daily.
-2. An API that will generate leetcode problems based on the difficulty level:
-    - Provides a list of problems based on the difficulty level.
-    - Provides top 10 problems based on the frequency of the problem being asked in the past.
-    - Provides a random problem based on the difficulty level.
+LeetCode Assistant is a powerful tool designed to help programmers prepare for technical interviews. It consists of a Discord bot that assigns LeetCode problems daily and an API that generates LeetCode problems based on their difficulty level. The bot not only assigns problems but also provides a variety of features to help users make the most out of their LeetCode practice.
 
-# Table of Contents
-- [LeetCode-Generator-Discord-Bot](#leetcode-generator-discord-bot)
-- [Table of Contents](#table-of-contents)
+## Table of Contents
+
+- [Features](#features)
 - [Getting Started](#getting-started)
-- [Getting Started with Lerna](#getting-started-with-lerna)
-  - [Terminology](#terminology)
-  - [Important Commands](#important-commands)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Packages](#packages)
+  - [discord-bot](#discord-bot)
+  - [leetcodeapi](#leetcodeapi)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
+## Features
 
-# Getting Started
+The LeetCode Assistant is designed with a variety of features to streamline and enhance your LeetCode practice:
 
-1. Clone the repository
+- **Daily Problem Assignment**: The bot assigns daily LeetCode problems, helping users maintain a consistent practice schedule.
+- **Difficulty-Based Problem Generation**: The API can generate a list of problems based on the difficulty level, allowing users to focus their practice on specific difficulty tiers.
+- **Top Problems**: The bot provides the top 10 problems based on the frequency of the problems being asked in the past, helping users focus on commonly asked questions.
+- **Random Problem Generation**: The bot can provide a random problem based on the difficulty level, adding variety to the users' practice routine.
 
-    ```bash
-    git clone https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/
-    ```
-2. Install dependencies
+## Getting Started
 
-    ```bash
-    npm install
-    ```
+### Prerequisites
 
-3. Create a `.env` file in the root directory and add the following variables
+Ensure you have the following installed on your local machine:
 
-    ```bash
-    discord_token=<your discord bot token>
-    ```
-
-# Getting Started with Lerna
-`Lerna` is a tool that optimizes the workflow around managing multi-package repositories with git and npm.
-- Packages are linked together and can depend on one another.
-- Changes are synchronized across linked packages.
-- Lerna can version packages and publish them to npm.
-
-## Terminology
-- **Repository** - A repository is a directory or storage space where your projects can live. It can be local to your computer or a remote location like GitHub.
-- **Package** - A package is a directory or file that is discoverable by npm. It contains a package.json file with metadata relevant to the project. A package can be as small as a single module or as large as a collection of related packages that work together.
-- **Version** - A version is a unique identifier for a specific release of a package. Versions are assigned and managed by npm.
-
-## Important Commands
-- `lerna bootstrap` - Installs all dependencies for all packages.
-- `lerna clean` - Removes the node_modules directory from all packages.
-- `lerna run <script>` - Run an npm script in each package that contains that script.
-- `lerna run <script> --scope <package>` - Run an npm script in a specific package.
-- `lerna run <script> --ignore <package>` - Run an npm script in all packages except a specific package.
-
-## Prerequisites
 - Node.js >= 10.13.0
 - npm >= 6.4.1
 - git >= 2.0.0
 
-## Installation
+### Installation
 
-1. Install Lerna globally
-    
-    ```bash 
+1. Clone the repository:
+
+    ```
+    git clone https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/
+    ```
+
+2. Install dependencies:
+
+    ```
+    npm install
+    ```
+
+3. Install Lerna globally:
+
+    ```
     npm install -g lerna
     ```
 
-2. Install the dependencies for each package using Lerna:
-    
-    ```bash
+4. Install the dependencies for each package using Lerna:
+
+    ```
     lerna bootstrap
     ```
+
+5. Create a `.env` file in the root directory and add the following variables:
+
+    ```
+    discord_token=<your discord bot token>
+    ```
+
+## Packages
+
+The bot's code is divided into two main packages: `discord-bot` and `leetcodeapi`.
+
+### Discord-Bot
+
+This package contains the code for the Discord bot itself. It uses axios for making HTTP requests, discord.js for interacting with Discord, dotenv for managing environment variables, node-cron for scheduling tasks, and pm2 for managing the application process.
+
+
+### LeetCode-Api
+
+This package contains the code for the LeetCode problem generation API. It uses axios for making HTTP requests, express for managing the server, express-winston for logging, and webpack for bundling the application.
+
+## Usage
+
+You can use various Lerna commands to manage the bot and the API:
+
+- `lerna bootstrap`: Installs all dependencies for all packages.
+- `lerna run <script>`: Run an npm script in each package that contains that script.
+
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to the project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
