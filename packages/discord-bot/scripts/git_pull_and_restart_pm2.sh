@@ -4,12 +4,13 @@
 cd ~/LeetCode-Generator-Discord-Bot
 
 # pull changes from the remote repository
-git pull
+git fetch
 
 # check if there were any changes
 if [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]; then
   # Restart the PM2 instance
-  pm2 start LeetCode-Bot
+  git pull
 fi
 
-pm2 start LeetCode-Bot
+# change back to the original directory
+cd -

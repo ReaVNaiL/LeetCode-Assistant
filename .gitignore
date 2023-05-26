@@ -1,4 +1,3 @@
-commits-to-remove.sh
 node_modules
 .prettierrc
 .vscode
