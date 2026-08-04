@@ -34,8 +34,8 @@ The LeetCode Assistant is designed with a variety of features to streamline and 
 
 Ensure you have the following installed on your local machine:
 
-- Node.js >= 10.13.0
-- npm >= 6.4.1
+- Node.js >= 18.x
+- npm >= 9.x
 - git >= 2.0.0
 
 ### Installation
@@ -46,25 +46,13 @@ Ensure you have the following installed on your local machine:
     git clone https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/
     ```
 
-2. Install dependencies:
+2. Install all dependencies (npm workspaces will resolve packages automatically):
 
     ```
     npm install
     ```
 
-3. Install Lerna globally:
-
-    ```
-    npm install -g lerna
-    ```
-
-4. Install the dependencies for each package using Lerna:
-
-    ```
-    lerna bootstrap
-    ```
-
-5. Create a `.env` file in the root directory and add the following variables:
+3. Create a `.env` file in the `packages/discord-bot` directory and add the following variables:
 
     ```
     discord_token=<your discord bot token>
@@ -103,10 +91,12 @@ This package contains the code for the LeetCode problem generation API. It uses 
 
 ## Usage
 
-You can use various Lerna commands to manage the bot and the API:
+This project uses npm workspaces to manage the monorepo:
 
-- `lerna bootstrap`: Installs all dependencies for all packages.
-- `lerna run <script>`: Run an npm script in each package that contains that script.
+- `npm install`: Installs all dependencies for all packages.
+- `npm run <script> --workspaces`: Run an npm script in each package that contains that script.
+- `npm run start --workspace=discord-bot`: Start the Discord bot.
+- `npm run start --workspace=leetcodeapi`: Start the API server.
 
 ## Contributing
 
