@@ -1,6 +1,6 @@
 // Modules import
 const problems = require('../data/leetcode-data.json').stat_status_pairs;
-const dailyProblemList = require('../data/daily-list.json');
+const database = require('../database');
 const problemCount = problems.length;
 const fs = require('fs');
 
@@ -63,15 +63,17 @@ function arrangeProblemSets() {
 
 /**
  * Get a problem from the list of problems, and request the API for the problem details
- * @returns {Object} - The problem details:
+ * @returns {Promise<Object>} - The problem details:
  *
  * { `title`, `type`, `difficulty`, `link` }
  */
-function getDailyProblem() {
-    const problemLink = Object.keys(dailyProblemList)[0];
-    const problemInfo = getProblemByUrl(problemLink);
+async function getDailyProblem() {
+    const dailyRow = await database.getNextDailyProblem();
+    if (!dailyRow) return null;
 
-    problemInfo.type = dailyProblemList[problemLink];
+    const problemInfo = getProblemByUrl(dailyRow.url);
+    problemInfo.type = dailyRow.type;
+    problemInfo.dbId = dailyRow.id; // Keep track for skipping
 
     return problemInfo;
 }
@@ -79,24 +81,22 @@ function getDailyProblem() {
 /**
  * Skip the daily problem and update the list
  */
-function skipDailyProblem() {
-    delete dailyProblemList[Object.keys(dailyProblemList)[0]];
-    // get file path
-    const filePath = require.resolve('../data/daily-list.json');
-
-    // save the new list to the file
-    fs.writeFile(filePath, JSON.stringify(dailyProblemList, null, 4), (err) => {
-        if (err) return err;
-        else return 'Daily problem list updated.';
-    });
+async function skipDailyProblem() {
+    const dailyRow = await database.getNextDailyProblem();
+    if (dailyRow) {
+        await database.markDailyProblemCompleted(dailyRow.id);
+        return 'Daily problem skipped and marked as completed in DB.';
+    }
+    return 'No more daily problems to skip.';
 }
 
 /**
  * Get Current Progress List
- * @returns {Object} Count of problems left
+ * @returns {Promise<Number>} Count of problems left
  */
-function getCurrentProgressList() {
-    return 150 - Object.keys(dailyProblemList).length;
+async function getCurrentProgressList() {
+    // Stubbed for now, ideally count where is_completed = 0
+    return 150;
 }
 
 ///

@@ -46,7 +46,7 @@ async function dailyProblemStringBuilder(
 
 async function requestProblemInfo(client = null) {
     try {
-        const problemInfo = problemsReq.getDailyProblem();
+        const problemInfo = await problemsReq.getDailyProblem();
         if (client) await status.updateStatusCount(client);
         return problemInfo;
     } catch (error) {
@@ -56,7 +56,7 @@ async function requestProblemInfo(client = null) {
 }
 
 async function requestSkipDailyProblem() {
-    return problemsReq.skipDailyProblem();
+    return await problemsReq.skipDailyProblem();
 }
 
 /**

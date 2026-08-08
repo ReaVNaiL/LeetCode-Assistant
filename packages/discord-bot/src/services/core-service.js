@@ -7,7 +7,7 @@ class CoreService {
      * Submit a solution and log it for the user
      */
     static async submitSolution(discordId, username, solutionStr) {
-        const daily = problemsReq.getDailyProblem();
+        const daily = await problemsReq.getDailyProblem();
         return await database.logSubmission(
             discordId,
             username,
@@ -34,8 +34,8 @@ class CoreService {
     /**
      * Get the daily problem information
      */
-    static getDailyProblem() {
-        return problemsReq.getDailyProblem();
+    static async getDailyProblem() {
+        return await problemsReq.getDailyProblem();
     }
 
     /**

@@ -39,6 +39,27 @@ function initDatabase() {
             points_awarded INTEGER,
             FOREIGN KEY (discord_id) REFERENCES users (discord_id)
         )`);
+
+        // Daily Problems Table
+        db.run(`CREATE TABLE IF NOT EXISTS daily_problems (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            url TEXT UNIQUE,
+            type TEXT,
+            is_completed BOOLEAN DEFAULT 0
+        )`, () => {
+            // Seed data if empty
+            db.get("SELECT COUNT(*) as count FROM daily_problems", (err, row) => {
+                if (row && row.count === 0) {
+                    const dailyList = require('./data/daily-list.json');
+                    const stmt = db.prepare("INSERT INTO daily_problems (url, type) VALUES (?, ?)");
+                    for (const [url, type] of Object.entries(dailyList)) {
+                        stmt.run(url, type);
+                    }
+                    stmt.finalize();
+                    console.log("Seeded daily_problems table from JSON.");
+                }
+            });
+        });
     });
 }
 
@@ -139,9 +160,29 @@ function resetMissedStreaks() {
     });
 }
 
+function getNextDailyProblem() {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM daily_problems WHERE is_completed = 0 ORDER BY id ASC LIMIT 1', (err, row) => {
+            if (err) return reject(err);
+            resolve(row); // returns { id, url, type, is_completed }
+        });
+    });
+}
+
+function markDailyProblemCompleted(id) {
+    return new Promise((resolve, reject) => {
+        db.run('UPDATE daily_problems SET is_completed = 1 WHERE id = ?', [id], function(err) {
+            if (err) return reject(err);
+            resolve(this.changes);
+        });
+    });
+}
+
 module.exports = {
     logSubmission,
     getLeaderboard,
     getUserProfile,
-    resetMissedStreaks
+    resetMissedStreaks,
+    getNextDailyProblem,
+    markDailyProblemCompleted
 };
