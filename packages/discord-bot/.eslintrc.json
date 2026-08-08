@@ -12,6 +12,6 @@
     "rules": {
         "indent": ["error", 4],
         "comma-dangle": ["warn", "never"],
-        "no-conosle": ["off"]
+        "no-console": ["off"]
     }
 }

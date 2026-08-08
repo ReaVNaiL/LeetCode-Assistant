@@ -1,5 +1,6 @@
 const axios = require('axios');
 const emojis = require('../data/emojis.json');
+const config = require('../config');
 
 async function bonusProblemStringBuilder(
     interaction,
@@ -23,17 +24,23 @@ async function bonusProblemStringBuilder(
         await interaction.reply({
             content: output,
             allowed_mentions: { parse: ['everyone'] }
-        }); // Add the checkmark reaction to the reply
-        await interaction.react(emojis.checkmark);
+        });
+        const reply = await interaction.fetchReply();
+        await reply.react(emojis.checkmark);
     }
     return output;
 }
-async function requestBonusProblem() {
-    const bonusInfo = await axios.get(
-        'https://leetcode-api.klenir.com/daily/bonus'
-    );
 
-    return bonusInfo.data;
+async function requestBonusProblem() {
+    try {
+        const bonusInfo = await axios.get(
+            `${config.apiUrl}/daily/bonus`
+        );
+        return bonusInfo.data;
+    } catch (error) {
+        console.error('Failed to fetch bonus problem:', error.message);
+        return { title: 'Unavailable', type: 'N/A', difficulty: 'N/A', link: '#' };
+    }
 }
 
 module.exports = {

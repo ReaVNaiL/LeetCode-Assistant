@@ -1,5 +1,6 @@
 const { ActivityType } = require('discord.js');
 const axios = require('axios');
+const config = require('../config');
 
 function SetBotStatus(client, status) {
     client.user.setPresence({
@@ -43,13 +44,16 @@ function SetCountBotStatus(client, count) {
  * @returns {Object} Count of problems  solved
  */
 async function updateStatusCount(client) {
-    const response = await axios.get(
-        'https://leetcode-api.klenir.com/daily/count'
-    );
-
-    SetCountBotStatus(client, response.data.count);
-
-    return response.data;
+    try {
+        const response = await axios.get(
+            `${config.apiUrl}/daily/count`
+        );
+        SetCountBotStatus(client, response.data.count);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to update status count:', error.message);
+        return { count: 0 };
+    }
 }
 
 module.exports = {

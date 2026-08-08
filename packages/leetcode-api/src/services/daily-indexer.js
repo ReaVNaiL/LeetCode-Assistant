@@ -53,21 +53,25 @@ function getCurrentProgressList() {
 }
 
 async function getBonusProblem() {
-    // Getting the bonus problem from leetcode.com
-    const body = {
-        query: '{ activeDailyCodingChallengeQuestion { link } }'
-    };
+    try {
+        // Getting the bonus problem from leetcode.com
+        const body = {
+            query: '{ activeDailyCodingChallengeQuestion { link } }'
+        };
 
-    const response = await axios.post('https://leetcode.com/graphql', body);
+        const response = await axios.post('https://leetcode.com/graphql', body);
 
-    if (response.status === 200) {
-        // get the link from the response
-        const link = response.data.data.activeDailyCodingChallengeQuestion.link;
+        if (response.status === 200) {
+            // get the link from the response
+            const link = response.data.data.activeDailyCodingChallengeQuestion.link;
+            return problemReq.getProblemByUrl(`https://leetcode.com${link}`, '???');
+        }
 
-        return problemReq.getProblemByUrl(`https://leetcode.com${link}`, '???');
+        return { link: 'Error' };
+    } catch (error) {
+        console.error('Failed to fetch bonus problem from LeetCode:', error.message);
+        return { title: 'Unavailable', type: 'N/A', difficulty: 'N/A', link: '#' };
     }
-
-    return { link: 'Error' };
 }
 
 module.exports = {

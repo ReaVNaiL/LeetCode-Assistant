@@ -18,63 +18,40 @@ function printElement(index) {
     return 'Problem not found, please try a different index.';
 }
 
+const DIFFICULTY_LABELS = { 1: 'Easy', 2: 'Medium', 3: 'Hard' };
+
 function getProblemByUrl(problemUrl, type) {
     const linkSlug = problemUrl.split('/')[4];
-    let dailyProblem = {
-        title: '',
-        type: type,
-        difficulty: 0,
+    const match = problems.find(
+        (p) => p.stat.question__title_slug === linkSlug
+    );
+
+    return {
+        title: match ? match.stat.question__title : '',
+        type,
+        difficulty: match
+            ? DIFFICULTY_LABELS[match.difficulty.level] || 'Unknown'
+            : 'Unknown',
         link: problemUrl
     };
-
-    // Note: This is a synchronous function, but it's okay because it's only called once.
-    problems.forEach((problem, index) => {
-        const problemSlug = problem['stat']['question__title_slug'];
-        if (problemSlug === linkSlug) {
-            dailyProblem['difficulty'] = problem['difficulty']['level'];
-            dailyProblem['title'] = problem['stat']['question__title'];
-            return dailyProblem;
-        }
-    });
-
-    // Replace the difficulty number with the string
-    switch (dailyProblem['difficulty']) {
-        case 1:
-            dailyProblem['difficulty'] = 'Easy';
-            break;
-        case 2:
-            dailyProblem['difficulty'] = 'Medium';
-            break;
-        case 3:
-            dailyProblem['difficulty'] = 'Hard';
-            break;
-        default:
-            dailyProblem['difficulty'] = 'Unknown';
-            break;
-    }
-
-    return dailyProblem;
 }
 
 function arrangeProblemSets() {
     problemList = [[], [], []];
     completedProblemList = [[], [], []];
 
-    problems.forEach(function (element) {
-        let newProblem = createBaseModel(element);
-
-        // Follow arr index for each diff level.
-        let arrIndex = newProblem.difficulty - 1;
-
-        // Add to correct array and sort it on each iteration.
-        if (newProblem.isCompleted) {
-            completedProblemList[arrIndex].push(newProblem);
-            sortArray(completedProblemList, arrIndex);
-        } else {
-            problemList[arrIndex].push(newProblem);
-            sortArray(problemList, arrIndex);
-        }
+    problems.forEach((element) => {
+        const newProblem = createBaseModel(element);
+        const arrIndex = newProblem.difficulty - 1;
+        const targetList = newProblem.isCompleted
+            ? completedProblemList
+            : problemList;
+        targetList[arrIndex].push(newProblem);
     });
+
+    [problemList, completedProblemList].forEach((list) =>
+        list.forEach((bucket) => sortArray(bucket))
+    );
 
     generateSortedJsonFile('leetcode-data-sorted.json', {
         completedProblemList,
@@ -134,7 +111,7 @@ function createBaseModel(problemSet) {
         problemId: problemId,
         difficulty: problemSet.difficulty.level,
         progress: problemSet.progress,
-        isCompleted: problemSet.status == 'ac' ? true : false,
+        isCompleted: problemSet.status === 'ac',
         questionUrl: problemSet.stat.question__title_slug,
         isNewQuestion: problemSet.stat.is_new_question,
         paidOnly: problemSet.paid_only
@@ -149,8 +126,8 @@ function generateSortedJsonFile(filename, jsonContent) {
     });
 }
 
-function sortArray(arr, index) {
-    arr[index].sort((a, b) => {
+function sortArray(bucket) {
+    bucket.sort((a, b) => {
         if (a.difficulty === b.difficulty) {
             return a.name.localeCompare(b.name);
         }
@@ -164,5 +141,7 @@ function sortArray(arr, index) {
 module.exports = {
     printElement,
     arrangeProblemSets,
-    getProblemByUrl
+    getProblemByUrl,
+    skipDailyProblem,
+    getCurrentProgressList
 };

@@ -1,5 +1,5 @@
 // Import Modules
-const settings = require('../config/api-settings-example.json');
+const config = require('../config');
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
@@ -29,7 +29,7 @@ router.get('/refresh', (req, res) => {
             headers: {
                 Cookie:
                     session == 'enabled'
-                        ? `LEETCODE_SESSION=${settings.LEETCODE_SESSION};`
+                        ? `LEETCODE_SESSION=${config.leetcodeSession};`
                         : ``
             }
         })
