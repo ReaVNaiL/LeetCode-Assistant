@@ -4,8 +4,7 @@ const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const status = require('../settings/botStatus');
 const emojis = require('../data/emojis.json');
-
-const CRON_SCHEDULE = '0 11 * * *'; // 11:00 AM
+const config = require('../config');
 
 /**
  * This function is used to build the string for the daily problem
@@ -31,33 +30,37 @@ async function dailyProblemStringBuilder(
 **:small_blue_diamond: Problem Type:**  ${problemType}
 **:small_blue_diamond: Difficulty:**  ${problemDifficulty}
 **:small_blue_diamond: Problem Link :mag::**  ${problemLink}
+
+> 💡 **2026 Interview Discussion Prompts:**
+> - What is the optimal Time and Space complexity?
+> - What edge cases would you test for in a production environment?
+> - If this logic was an API endpoint, how would you handle rate limiting or large inputs?
 `;
     if (!inChannel) {
         await interaction.reply(output);
-        // Add the checkmark reaction to the reply
-        await interaction.react(emojis.checkmark);
+        const reply = await interaction.fetchReply();
+        await reply.react(emojis.checkmark);
     }
     return output;
 }
 
-/**
- * Send the request to the API to get the problem details
- * @param {String} problemLink - The link to the problem
- * @returns {Object} - The problem details
- */
 async function requestProblemInfo(client = null) {
-    const problemInfo = await axios.get(
-        'https://leetcode-api.klenir.com/daily'
-    );
+    try {
+        const problemInfo = await axios.get(
+            `${config.apiUrl}/daily`
+        );
 
-    // Set the bot status optionally
-    if (client) await status.updateStatusCount(client);
+        if (client) await status.updateStatusCount(client);
 
-    return problemInfo.data;
+        return problemInfo.data;
+    } catch (error) {
+        console.error('Failed to fetch daily problem:', error.message);
+        return { title: 'Unavailable', type: 'N/A', difficulty: 'N/A', link: '#' };
+    }
 }
 
 async function requestSkipDailyProblem() {
-    return axios.post('https://leetcode-api.klenir.com/problems/daily/skip');
+    return axios.post(`${config.apiUrl}/problems/daily/skip`);
 }
 
 /**
@@ -66,7 +69,7 @@ async function requestSkipDailyProblem() {
  * @param {String} CHANNEL_ID - The channel ID
  */
 function sendDailyProblemMessage(client, CHANNEL_ID) {
-    cron.schedule(CRON_SCHEDULE, async () => {
+    cron.schedule(config.cronSchedule, async () => {
         const channel = client.channels.cache.get(CHANNEL_ID);
 
         if (channel) {

@@ -23,7 +23,7 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.7",
     "node-cron": "^4.6.0",
-    "pm2": "^7.0.3"
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
@@ -36,4 +36,3 @@
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --config .eslintrc.json ."
   }
 }
-

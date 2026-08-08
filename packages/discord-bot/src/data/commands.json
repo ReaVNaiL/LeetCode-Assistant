@@ -29,7 +29,23 @@
     },
     {
         "name": "leaderboard",
-        "description": "Get the leaderboard for all users!"
+        "description": "View the top LeetCode solvers in this server!"
+    },
+    {
+        "name": "profile",
+        "description": "View your gamified LeetCode stats, score, and streaks!"
+    },
+    {
+        "name": "submit",
+        "description": "Submit your solution for today's daily problem to earn points and keep your streak!",
+        "options": [
+            {
+                "name": "solution",
+                "description": "Paste your code snippet or LeetCode submission link",
+                "type": 3,
+                "required": true
+            }
+        ]
     },
     {
         "name": "help",

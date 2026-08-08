@@ -28,35 +28,67 @@ The LeetCode Assistant is designed with a variety of features to streamline and 
 - **Top Problems**: The bot provides the top 10 problems based on the frequency of the problems being asked in the past, helping users focus on commonly asked questions.
 - **Random Problem Generation**: The bot can provide a random problem based on the difficulty level, adding variety to the users' practice routine.
 
-## Getting Started
+## Discord Bot Setup (Required First Step)
 
-### Prerequisites
+Before running the application, you need to create a Discord bot and get your `TOKEN` and `CHANNEL_ID`.
 
-Ensure you have the following installed on your local machine:
+1. **Create the Bot Application:**
+   - Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+   - Click **New Application** and give it a name.
+   - Go to the **Bot** tab and click **Add Bot**.
+   - Under the Bot tab, click **Reset Token** and copy your `TOKEN`. Save this somewhere safe.
 
-- Node.js >= 18.x
-- npm >= 9.x
-- git >= 2.0.0
+2. **Invite the Bot to Your Server:**
+   - Go to the **OAuth2 > URL Generator** tab.
+   - Check the `bot` and `applications.commands` scopes.
+   - Under Bot Permissions, check `Send Messages`, `Read Message History`, and `Add Reactions`.
+   - Copy the generated URL, paste it into your browser, and authorize the bot to your server.
 
-### Installation
+3. **Get Your Channel ID:**
+   - In Discord, go to **User Settings > Advanced** and enable **Developer Mode**.
+   - Right-click the channel where you want the bot to post daily problems and select **Copy Channel ID**. This is your `CHANNEL_ID`.
 
-1. Clone the repository:
+### Quickstart with Docker Compose (Zero Build / Painless)
 
-    ```
-    git clone https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/
-    ```
+1. Download `docker-compose.yml` and `.env.example`:
+   ```bash
+   curl -O https://raw.githubusercontent.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/main/docker-compose.yml
+   curl -O https://raw.githubusercontent.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/main/.env.example
+   mv .env.example .env
+   ```
 
-2. Install all dependencies (npm workspaces will resolve packages automatically):
+2. Edit `.env` and set your secrets:
+   ```env
+   TOKEN=your_discord_bot_token_here
+   CHANNEL_ID=your_discord_channel_id_here
+   ```
 
-    ```
-    npm install
-    ```
+3. Launch pre-built containers:
+   ```bash
+   docker compose up -d
+   ```
 
-3. Create a `.env` file in the `packages/discord-bot` directory and add the following variables:
+> 💡 **Customizing Setup:** If you want to override ports or settings locally without editing `docker-compose.yml`, copy `docker-compose.override.yml.example` to `docker-compose.override.yml`. It is automatically gitignored.
 
-    ```
-    discord_token=<your discord bot token>
-    ```
+---
+
+### Local Development Setup
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Create `.env` in `packages/discord-bot`:
+   ```env
+   TOKEN=your_discord_bot_token_here
+   CHANNEL_ID=your_discord_channel_id_here
+   LEETCODE_API_URL=http://localhost:50520
+   ```
+
+3. Start services:
+   - Start API: `npm run start --workspace=leetcodeapi`
+   - Start Bot: `npm run start --workspace=discord-bot`
 
 ## Packages
 
