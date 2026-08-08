@@ -1,32 +1,15 @@
 version: '3.8'
 
 services:
-  leetcode-api:
-    image: ghcr.io/reavnail/leetcode-api:latest
-    build:
-      context: .
-      dockerfile: packages/leetcode-api/Dockerfile
-    container_name: leetcode-api
-    ports:
-      - "${PORT:-50520}:${PORT:-50520}"
-    environment:
-      - PORT=${PORT:-50520}
-      - LEETCODE_SESSION=${LEETCODE_SESSION:-}
-      - CSRF_TOKEN=${CSRF_TOKEN:-}
-    restart: unless-stopped
-
   discord-bot:
     image: ghcr.io/reavnail/leetcode-discord-bot:latest
     build:
       context: .
       dockerfile: packages/discord-bot/Dockerfile
     container_name: discord-bot
-    depends_on:
-      - leetcode-api
     environment:
       - TOKEN=${TOKEN}
       - CHANNEL_ID=${CHANNEL_ID}
-      - LEETCODE_API_URL=${LEETCODE_API_URL:-http://leetcode-api:50520}
       - CRON_SCHEDULE=${CRON_SCHEDULE:-0 11 * * *}
       - ADMIN_PASSCODE=${ADMIN_PASSCODE:-4444}
       - ENABLE_AUTO_DEPLOY=${ENABLE_AUTO_DEPLOY:-false}

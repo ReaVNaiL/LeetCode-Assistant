@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
-const axios = require('axios');
 const cron = require('node-cron');
 const { getCurrentFormattedDate } = require('./timeHandler');
 const status = require('../settings/botStatus');
 const emojis = require('../data/emojis.json');
 const config = require('../config');
+const problemsReq = require('../services/problems-req');
+const dailyIndexer = require('../services/daily-indexer');
 
 /**
  * This function is used to build the string for the daily problem
@@ -46,13 +46,9 @@ async function dailyProblemStringBuilder(
 
 async function requestProblemInfo(client = null) {
     try {
-        const problemInfo = await axios.get(
-            `${config.apiUrl}/daily`
-        );
-
+        const problemInfo = problemsReq.getDailyProblem();
         if (client) await status.updateStatusCount(client);
-
-        return problemInfo.data;
+        return problemInfo;
     } catch (error) {
         console.error('Failed to fetch daily problem:', error.message);
         return { title: 'Unavailable', type: 'N/A', difficulty: 'N/A', link: '#' };
@@ -60,7 +56,7 @@ async function requestProblemInfo(client = null) {
 }
 
 async function requestSkipDailyProblem() {
-    return axios.post(`${config.apiUrl}/problems/daily/skip`);
+    return problemsReq.skipDailyProblem();
 }
 
 /**

@@ -1,6 +1,6 @@
-const axios = require('axios');
 const emojis = require('../data/emojis.json');
 const config = require('../config');
+const dailyIndexer = require('../services/daily-indexer');
 
 async function bonusProblemStringBuilder(
     interaction,
@@ -33,10 +33,8 @@ async function bonusProblemStringBuilder(
 
 async function requestBonusProblem() {
     try {
-        const bonusInfo = await axios.get(
-            `${config.apiUrl}/daily/bonus`
-        );
-        return bonusInfo.data;
+        const bonusInfo = dailyIndexer.getBonusProblem();
+        return bonusInfo;
     } catch (error) {
         console.error('Failed to fetch bonus problem:', error.message);
         return { title: 'Unavailable', type: 'N/A', difficulty: 'N/A', link: '#' };

@@ -4,7 +4,7 @@ const dailyHandler = require('./helpers/dailyProblem');
 const bonusHandler = require('./helpers/bonusProblem');
 const statusHandler = require('./settings/botStatus');
 const config = require('./config');
-const database = require('./database');
+const CoreService = require('./services/core-service');
 
 const { getCurrentFormattedDate } = require('./helpers/timeHandler');
 const { SetBotCommands } = require('./settings/botCommands');
@@ -80,7 +80,7 @@ async function initializeBotInteractions(client, interaction) {
 
     if (commandName === 'leaderboard') {
         try {
-            const topUsers = await database.getLeaderboard(10);
+            const topUsers = await CoreService.getLeaderboard();
             if (topUsers.length === 0) {
                 await interaction.reply('The leaderboard is currently empty. Be the first to `/submit` a solution!');
                 return;
@@ -100,7 +100,7 @@ async function initializeBotInteractions(client, interaction) {
 
     if (commandName === 'profile') {
         try {
-            const user = await database.getUserProfile(interaction.user.id);
+            const user = await CoreService.getUserProfile(interaction.user.id);
             if (!user) {
                 await interaction.reply('You don\'t have a profile yet! Use `/submit` to log your first problem.');
                 return;
@@ -124,17 +124,10 @@ async function initializeBotInteractions(client, interaction) {
         try {
             const solution = options.getString('solution');
             
-            // For now, we get the current daily problem name to log it
-            // Ideally, we'd ensure they are solving today's exact problem
-            const daily = await dailyHandler.requestProblemInfo(client);
-            
-            // Give 10 points for submission as default
-            const result = await database.logSubmission(
+            const result = await CoreService.submitSolution(
                 interaction.user.id,
                 interaction.user.username,
-                daily.title || 'Unknown Problem',
-                solution,
-                10
+                solution
             );
 
             if (result.isDuplicate) {
