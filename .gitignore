@@ -6,6 +6,7 @@ node_modules
 vercel.json
 packages/discord-bot/config/bot-credentials.json
 packages/discord-bot/src/data/daily-list.json\
+docker-compose.override.yml
 
 # Logs
 logs

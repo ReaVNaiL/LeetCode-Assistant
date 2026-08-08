@@ -1,0 +1,19 @@
+# Example Docker Compose Override File
+# Copy this file to `docker-compose.override.yml` to customize settings locally.
+# `docker-compose.override.yml` is automatically gitignored.
+
+version: '3.8'
+
+services:
+  leetcode-api:
+    # Example: Map host port 8080 to container port 50520
+    # ports:
+    #   - "8080:50520"
+    environment:
+      - PORT=50520
+
+  discord-bot:
+    environment:
+      - TOKEN=your_discord_bot_token_here
+      - CHANNEL_ID=your_discord_channel_id_here
+      - LEETCODE_API_URL=http://leetcode-api:50520
