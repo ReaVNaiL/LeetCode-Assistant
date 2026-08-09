@@ -1,18 +1,12 @@
 # Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+Keep changes aligned with the dependency direction documented in `ARCHITECTURE.md`: Discord and infrastructure may depend on the application layer, while domain/application code must not depend on Discord, SQLite, environment variables, cron, or HTTP clients.
 
-## Step by Step Guide
+Before opening a pull request, run:
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+```bash
+npm install
+npm run validate
+```
 
-## Any Contributions You Make Must Follow This
-
-- The pull request must have a descriptive title for what you are modifying. Small summary of what the changes are and why you have made them.
-- The pull request must pass all the automated tests and checks.
-- If the pull request is a fix for a particular issue, please include `closes #{issue no}` in the description of the pull.
-- If the pull request is a new feature please discuss it with the maintainers in a GitHub issue first.
+A pull request should explain what changed, why it changed, and any schema or behavior migration involved. New business behavior should include unit tests. SQLite-specific behavior should include an integration test where practical. Avoid adding generic `helpers`, `utils`, or `core` modules when a narrower domain or application name is available.

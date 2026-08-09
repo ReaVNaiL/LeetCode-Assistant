@@ -1,37 +1,36 @@
 {
   "name": "discord-bot",
-  "version": "1.0.3",
-  "description": "The discord bot to get up to date problems, and generate dailys!",
-  "keywords": [
-    "leetcode",
-    "discord",
-    "bot"
-  ],
-  "author": "Daniel M",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/tree/main/discord-bot"
+  "version": "2.0.0",
+  "description": "TypeScript Discord bot for curated daily LeetCode practice",
+  "main": "dist/main.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.15.0"
   },
-  "bugs": {
-    "url": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/issues"
-  },
-  "homepage": "https://github.com/ReaVNaiL/LeetCode-Generator-Discord-Bot/#readme",
-  "main": "index.js",
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.7",
-    "node-cron": "^4.6.0",
-    "sqlite3": "^6.0.1"
+    "node-cron": "^4.6.0"
   },
   "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+    "eslint-config-prettier": "^10.1.1",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "npm run lint:fix && node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --config .eslintrc.json ."
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "lint": "eslint src tests --ext .ts",
+    "lint:fix": "eslint src tests --ext .ts --fix",
+    "test": "tsx tests/run-tests.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"*.json\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"*.json\""
   }
 }

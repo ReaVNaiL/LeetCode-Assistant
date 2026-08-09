@@ -1,16 +1,21 @@
-version: '3.8'
-
 services:
   discord-bot:
     image: ghcr.io/reavnail/leetcode-discord-bot:latest
     build:
       context: .
       dockerfile: packages/discord-bot/Dockerfile
-    container_name: discord-bot
+    container_name: leetcode-discord-bot
     environment:
-      - TOKEN=${TOKEN}
-      - CHANNEL_ID=${CHANNEL_ID}
-      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 11 * * *}
-      - ADMIN_PASSCODE=${ADMIN_PASSCODE:-4444}
-      - ENABLE_AUTO_DEPLOY=${ENABLE_AUTO_DEPLOY:-false}
+      TOKEN: ${TOKEN}
+      CHANNEL_ID: ${CHANNEL_ID}
+      CRON_SCHEDULE: ${CRON_SCHEDULE:-0 11 * * *}
+      TIMEZONE: ${TIMEZONE:-UTC}
+      POINTS_PER_SUBMISSION: ${POINTS_PER_SUBMISSION:-10}
+      DATABASE_PATH: /app/data/bot-database.sqlite
+      DAILY_LIST_PATH: /app/packages/discord-bot/src/data/daily-list.json
+    volumes:
+      - leetcode-bot-data:/app/data
     restart: unless-stopped
+
+volumes:
+  leetcode-bot-data:

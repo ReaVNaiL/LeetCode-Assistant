@@ -1,15 +1,22 @@
 {
-  "name": "root",
+  "name": "leetcode-assistant",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "lint:fix": "npm run lint:fix --workspaces --if-present"
+    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspace=discord-bot",
+    "start": "npm run start --workspace=discord-bot",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present",
+    "format:check": "npm run format:check --workspaces --if-present",
+    "validate": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
-  "devDependencies": {
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+  "engines": {
+    "node": ">=24.15.0"
   }
 }

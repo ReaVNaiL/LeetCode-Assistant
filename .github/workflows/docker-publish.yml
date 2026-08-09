@@ -1,11 +1,9 @@
-name: Publish Docker Images
+name: Publish Discord Bot Image
 
 on:
   push:
-    branches:
-      - main
-    tags:
-      - 'v*'
+    branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
 jobs:
@@ -16,7 +14,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
@@ -29,18 +27,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push LeetCode API Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: packages/leetcode-api/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/leetcode-api:latest
-            ghcr.io/${{ github.repository_owner }}/leetcode-api:${{ github.sha }}
-
-      - name: Build and Push Discord Bot Image
-        uses: docker/build-push-action@v5
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: packages/discord-bot/Dockerfile
