@@ -27,6 +27,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase repository owner
+        run: |
+          echo "REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -34,5 +38,5 @@ jobs:
           file: packages/discord-bot/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/leetcode-discord-bot:latest
-            ghcr.io/${{ github.repository_owner }}/leetcode-discord-bot:${{ github.sha }}
+            ghcr.io/${{ env.REPO_OWNER }}/leetcode-discord-bot:latest
+            ghcr.io/${{ env.REPO_OWNER }}/leetcode-discord-bot:${{ github.sha }}
