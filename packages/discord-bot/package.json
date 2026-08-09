@@ -1,6 +1,6 @@
 {
   "name": "discord-bot",
-  "version": "2.0.0",
+  "version": "0.9.0",
   "description": "TypeScript Discord bot for curated daily LeetCode practice",
   "main": "dist/main.js",
   "license": "MIT",
